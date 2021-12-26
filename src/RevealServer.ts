@@ -8,6 +8,8 @@ import * as path from 'path'
 
 import markdownit from './Markdown-it'
 
+const {spawnSync} = require('child_process')
+
 import { Configuration } from './Configuration'
 import { exportHTML, IExportOptions } from './ExportHTML'
 import { ISlide } from './ISlide'
@@ -18,7 +20,7 @@ interface RevealServerEvents {
   started: (uri: string) => void,
   stopped: () => void
   error: (error: Error) => void
-  
+
 }
 
 export class RevealServer extends (EventEmitter as new () => TypedEmitter<RevealServerEvents>){
@@ -108,7 +110,18 @@ export class RevealServer extends (EventEmitter as new () => TypedEmitter<Reveal
         return next()
       }
 
-      const htmlSlides = this.getSlides().map((s) => ({
+      var slides = this.getSlides();
+
+      const slideSeparator = "!$$$$$$$$!";
+      const allSlidesText = slides.map(s => s.text).join(slideSeparator);
+
+      const proc = spawnSync('C:/OHW/majsdown/build/majsdown-converter.exe', [], { input: allSlidesText, encoding: 'utf-8' });
+      const procOut = String(proc.output[1]);
+
+      const processedSlides = procOut.split(slideSeparator);
+      processedSlides.forEach((elem, i) => { slides[i].text = elem; });
+
+      const htmlSlides = slides.map((s) => ({
         ...s,
         html: markdownit.render(s.text),
         children: s.verticalChildren.map((c) => ({ ...c, html: markdownit.render(c.text) })),
