@@ -20,12 +20,14 @@
   ],
   "keywords": [
     "markdown",
+    "majsdown",
     "reveal js",
     "slide",
     "presenttion"
   ],
   "activationEvents": [
     "onLanguage:markdown",
+    "onLanguage:majsdown",
     "onCommand:vscode-revealjs.showSample",
     "onCommand:vscode-revealjs.showRevealJS",
     "onCommand:vscode-revealjs.showRevealJSInBrowser"
@@ -519,7 +521,7 @@
     },
     "snippets": [
       {
-        "language": "markdown",
+        "language": "majsdown",
         "path": "./snippets.json"
       }
     ]

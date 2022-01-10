@@ -38,28 +38,36 @@ export default (configDesc: ConfigurationDescription[]) => {
     switch (type) {
       case 'string':
         if (values && values.length > 0) {
-          disposables.push(languages.registerCompletionItemProvider('markdown', enumValueProvider(label, values)))
+          ['markdown', 'majsdown'].forEach(x =>
+              disposables.push(languages.registerCompletionItemProvider(x, enumValueProvider(label, values)))
+          )
         }
         break
       case 'boolean':
-        disposables.push(languages.registerCompletionItemProvider('markdown', enumValueProvider(label, ['true', 'false'])))
+        ['markdown', 'majsdown'].forEach(x =>
+            disposables.push(languages.registerCompletionItemProvider(x, enumValueProvider(label, ['true', 'false'])))
+        )
         break
     }
 
     completionItem.commitCharacters = [' ']
     completionItem.insertText = completionItem.label + ': '
     return completionItem
-  })
+  });
 
-  const mainProvider = languages.registerCompletionItemProvider('markdown', {
-    provideCompletionItems(document: TextDocument, position: Position, token: CancellationToken, context: CompletionContext) {
-      if (!token.isCancellationRequested) {
-        const linePrefix = document.lineAt(position).text.substr(0, position.character)
-        return completionItems.filter((item) => item.label.toString().startsWith(linePrefix))
-      }
-    },
-  })
+  ['markdown', 'majsdown'].forEach(x =>
+  {
+      const mainProvider = languages.registerCompletionItemProvider(x, {
+        provideCompletionItems(document: TextDocument, position: Position, token: CancellationToken, context: CompletionContext) {
+          if (!token.isCancellationRequested) {
+            const linePrefix = document.lineAt(position).text.substr(0, position.character)
+            return completionItems.filter((item) => item.label.toString().startsWith(linePrefix))
+          }
+        },
+      })
 
-  disposables.push(mainProvider)
+      disposables.push(mainProvider)
+  });
+
   return disposables
 }

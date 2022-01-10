@@ -16,6 +16,7 @@ import { ISlide } from './ISlide'
 import { Logger } from './Logger'
 import EventEmitter from "events"
 import TypedEmitter from "typed-emitter"
+import { stringify } from 'querystring'
 interface RevealServerEvents {
   started: (uri: string) => void,
   stopped: () => void
@@ -112,8 +113,13 @@ export class RevealServer extends (EventEmitter as new () => TypedEmitter<Reveal
 
       var slides = this.getSlides();
 
+      const rootDir = this.getRootDir();
+
+      const rootDirEscaped = rootDir.replace(/\\/g, '\\\\');
+      const rootDirDefine = `@@$ const SLIDE_PARENT_DIRECTORY = '${rootDirEscaped}';`;
+
       const slideSeparator = "!$$$$$$$$!";
-      const allSlidesText = slides.map(s => s.text).join(slideSeparator);
+      const allSlidesText = rootDirDefine + "\n\n" + slides.map(s => s.text).join(slideSeparator);
 
       const proc = spawnSync('C:/OHW/majsdown/build/majsdown-converter.exe', [], { input: allSlidesText, encoding: 'utf-8' });
       const procOut = String(proc.output[1]);

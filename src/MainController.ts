@@ -40,7 +40,7 @@ interface ISlidePosition {
   vertical: number
 }
 
-const isMarkdownFile = (d:TextDocument) => d.languageId === 'markdown'
+const isMarkdownFile = (d:TextDocument) => (d.languageId === 'markdown' || d.languageId === 'majsdown')
 
 export default class MainController {
   readonly #server: RevealServer
@@ -52,7 +52,7 @@ export default class MainController {
 
   #webViewPane?:WebViewPane
   #frontMatterResult?:FrontMatterResult<IDocumentOptions>
-  
+
   #currentEditor?:TextEditor;
 
   #slides: ISlide[] = []
@@ -62,7 +62,7 @@ export default class MainController {
   get filename() { return this.#currentEditor?.document.fileName }
 
   get dirname() { return this.filename ? path.dirname(this.filename) : '' }
-  
+
   get ServerUri() { return this.#server.uri }
 
   //#### connect vs code event
@@ -74,7 +74,7 @@ export default class MainController {
     this.refresh()
   }
 
-  
+
 
   public onDidChangeActiveTextEditor(editor: TextEditor | undefined) {
     if (editor && isMarkdownFile( editor.document)) {
@@ -153,7 +153,7 @@ export default class MainController {
 
     this.#TextDecorator = new TextDecorator(configDesc)
 
-    
+
 
     this.#server.on("started", uri => {
       this.#log(`Server`,`started on ${uri}`)
@@ -192,7 +192,7 @@ export default class MainController {
     this.#webViewPane
      ? this.refreshWebViewPane()
      : await commands.executeCommand(SHOW_REVEALJS)
-   
+
 
     return promise
   }
@@ -243,7 +243,7 @@ export default class MainController {
       : path.join(this.dirname, this.configuration.exportHTMLPath)
   }
 
-  
+
   public goToSlide(topindex: number, verticalIndex: number) {
     if(!this.#currentEditor) return
 
@@ -272,6 +272,6 @@ export default class MainController {
       this.#webViewPane.on("disposed", ()=> this.#webViewPane = undefined)
   }
 
-  
+
 }
 }
