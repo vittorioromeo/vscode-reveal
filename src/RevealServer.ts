@@ -8,50 +8,54 @@ import * as path from 'path'
 
 import markdownit from './Markdown-it'
 
+import { exportHTML, IExportOptions } from './ExportHTML'
+import { Disposable } from './dispose'
+import { RevealContext } from './RevealContext'
+
 const {spawnSync} = require('child_process')
 
-import { Configuration } from './Configuration'
-import { exportHTML, IExportOptions } from './ExportHTML'
-import { ISlide } from './ISlide'
-import { Logger } from './Logger'
-import EventEmitter from "events"
-import TypedEmitter from "typed-emitter"
-import { stringify } from 'querystring'
-interface RevealServerEvents {
-  started: (uri: string) => void,
-  stopped: () => void
-  error: (error: Error) => void
-
-}
-
-export class RevealServer extends (EventEmitter as new () => TypedEmitter<RevealServerEvents>){
-  private readonly app = new Koa()
+/** Http server to serve reveal presentation */
+export class RevealServer extends Disposable {
+  public readonly app = new Koa()
   private server: http.Server | null = null
   private readonly host = 'localhost'
 
-  constructor(
-    private readonly logger: Logger,
-    private readonly getRootDir: () => string,
-    private readonly getSlides: () => ISlide[],
-    private readonly getConfiguration: () => Configuration,
-    private readonly extensionPath: string,
-    private readonly isInExport: () => boolean,
-    private readonly getExportPath: () => string
-  ) {
+  public isInExport = false
+
+
+  constructor(private readonly context: RevealContext) {
     super()
+    this.configure()
   }
 
+  public start() {
+    try {
+      if (!this.isListening) {
+        this.server = this.app.listen(0)
+        this.context.logger.info(`SERVER started`)
+      }
+    } catch (err) {
+      const error = new Error(`Cannot start server: ${err}`)
+      this.context.logger.error(`SERVER: Cannot start server: ${err}`)
+      throw error
+    }
+    return this.uri
+  }
+
+  /** True if server is currently listening*/
   public get isListening() {
     return this.server ? this.server.listening : false
   }
 
-  public stop() {
+  /** Stop listening */
+  stop(): void {
     if (this.isListening && this.server) {
       this.server.close()
-      this.emit("stopped")
+      this.context.logger.debug(`SERVER: stopped`)
     }
   }
 
+  /** Current uri for this server, empty is not listening */
   public get uri() {
     if (!this.isListening || this.server === null) {
       return ""
@@ -67,42 +71,28 @@ export class RevealServer extends (EventEmitter as new () => TypedEmitter<Reveal
     return `http://${this.host}:${addr.port}/`
   }
 
-  public start() {
-    try {
-      if (!this.isListening && this.getRootDir()) {
-        this.configure()
-        this.server = this.app.listen(0)
-        this.emit("started", this.uri)
-        return this.uri
-      }
-    } catch (err) {
-      const error = new Error(`Cannot start server: ${err}`)
-      this.emit("error", error)
-      throw error
-    }
-  }
-
   private configure() {
     const app = this.app
+    const context = this.context
 
     app.use(cors())
     // LOG REQUEST
     app.use(
-      koalogger((str, args) => {
-        this.logger.log(str)
+      koalogger((str) => {
+        context.logger.debug(str)
       })
     )
 
     // EXPORT
-    app.use(this.exportMiddleware(exportHTML, () => this.isInExport()))
+    app.use(this.exportMiddleware(exportHTML, () => context.isInExport))
 
     // EJS VIEW engine
     render(app, {
-      root: path.resolve(this.extensionPath, 'views'),
+      root: path.resolve(context.extensionPath, 'views'),
       layout: 'template.4.1.3',
       viewExt: 'ejs',
       cache: false,
-      debug: true,
+      debug: false,
     })
 
     // MAIN FILE
@@ -111,9 +101,8 @@ export class RevealServer extends (EventEmitter as new () => TypedEmitter<Reveal
         return next()
       }
 
-      var slides = this.getSlides();
-
-      const rootDir = this.getRootDir();
+      var slides = context.slides;
+      const rootDir = context.dirname;
 
       const rootDirEscaped = rootDir.replace(/\\/g, '\\\\');
       const rootDirDefine = `@@$ const SLIDE_PARENT_DIRECTORY = '${rootDirEscaped}';`;
@@ -127,39 +116,38 @@ export class RevealServer extends (EventEmitter as new () => TypedEmitter<Reveal
       const processedSlides = procOut.split(slideSeparator);
       processedSlides.forEach((elem, i) => { slides[i].text = elem; });
 
-      const htmlSlides = slides.map((s) => ({
+      const htmlSlides = context.slides.map((s) => ({
         ...s,
         html: markdownit.render(s.text),
         children: s.verticalChildren.map((c) => ({ ...c, html: markdownit.render(c.text) })),
       }))
-      ctx.state = { slides: htmlSlides, ...this.getConfiguration(), rootUrl: this.uri }
+      ctx.state = { slides: htmlSlides, ...context.configuration, rootUrl: this.uri }
       await ctx.render('reveal')
     })
 
     // STATIC LIBS
-    const libsPAth = path.join(this.extensionPath, 'libs')
+    const libsPAth = path.join(context.extensionPath, 'libs')
     app.use(serve({ rootDir: libsPAth, rootPath: '/libs' }))
 
     // STATIC RELATIVE TO MD FILE
-    const rootDir = this.getRootDir()
-    if (rootDir) {
-      app.use(serve({ rootDir, rootPath: '/' }))
+    if (context.dirname) {
+      app.use(serve({ rootDir: context.dirname, rootPath: '/' }))
     }
 
     // ERROR HANDLER
     app.on('error', (err) => {
-      this.logger.error(err)
+      context.logger.error(err)
     })
-
-    this.server = app.listen()
   }
 
 
   private readonly exportMiddleware = (exportfn: (ExportOptions) => Promise<void>, isInExport) => {
+
+    const { exportPath } = this.context
+
     return async (ctx: Koa.ParameterizedContext<Koa.DefaultState, Koa.DefaultContext, { path: string }>, next) => {
       await next()
       if (isInExport()) {
-        const exportPath = this.getExportPath()
         const opts: IExportOptions =
           typeof ctx.body === 'string'
             ? { folderPath: exportPath, url: ctx.originalUrl.split('?')[0], srcFilePath: null, data: ctx.body }
@@ -168,5 +156,11 @@ export class RevealServer extends (EventEmitter as new () => TypedEmitter<Reveal
         await exportfn(opts)
       }
     }
+  }
+
+  dispose(): void {
+    this.stop()
+    this.server = null
+    super.dispose();
   }
 }

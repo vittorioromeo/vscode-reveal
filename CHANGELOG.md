@@ -4,6 +4,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 4.1.3
+
+- Cannot Switch Between Different Markdown File Freely [858](https://github.com/evilz/vscode-reveal/issues/858)
+- Custom themes applying inconsistently [852](https://github.com/evilz/vscode-reveal/issues/852)
+- Error loading images [851](https://github.com/evilz/vscode-reveal/issues/851)
+
+## 4.1.2
+
+- Add Anything plugin [830](https://github.com/evilz/vscode-reveal/issues/830)
+- Change snippets too `sld-*` [815](https://github.com/evilz/vscode-reveal/issues/815)
+- Fix: can't open presentation in browser [801](https://github.com/evilz/vscode-reveal/issues/801)
+- Fix: exported presentation links [799](https://github.com/evilz/vscode-reveal/issues/799)
+- Add back coinfig of separator [740](https://github.com/evilz/vscode-reveal/issues/740)
+
 ## 4.1.1
 
 - Add config for presentation size [741](https://github.com/evilz/vscode-reveal/issues/741)

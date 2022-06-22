@@ -1,4 +1,4 @@
-name: continuous integration workflow
+name: continuous integration Build Matrix
 
 on: [push]
 
@@ -26,17 +26,3 @@ jobs:
 
       - name: build
         run: npm run vscode:prepublish
-
-      - name: test
-        run: npm run coverage
-
-      # - name: ui-test linux
-      #   if: runner.os == 'Linux'
-      # #  run: xvfb-run -a npm run ui-test
-      #   uses: GabrielBB/xvfb-action@v1
-      #   with:
-      #     run: npm run ui-test
-      
-      # - name: ui-test linux
-      #   if: runner.os != 'Linux'
-      #   run: npm run ui-test

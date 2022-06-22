@@ -1,22 +1,25 @@
-import { LogLevel } from './Logger'
-import { workspace } from 'vscode'
-import { extensionId } from './utils'
-import { isDeepStrictEqual } from 'util'
-
-import EventEmitter from 'events'
-import TypedEmitter from 'typed-emitter'
-
-/**
- * @file Manages the configuration settings for the extension.
- * @author Vincent Bourdon @Evilznet
+/*
+ * File: \src\Configuration.ts
+ * Project: vscode-reveal
+ * Created Date: Sunday March 13th 2022
+ * Author: evilz
+ * -----
+ * Last Modified: Wednesday, 16th March 2022 2:57:57 pm
+ * Modified By: evilz
+ * -----
+ * MIT License http://www.opensource.org/licenses/MIT
  */
 
-export type Configuration = IDocumentOptions & IExtensionOptions
+import { LogLevel } from './Logger'
+import { workspace } from 'vscode'
+
+export type Configuration = IRevealOptions & IExtensionOptions
 
 type themes = 'black' | 'white' | 'league' | 'beige' | 'sky' | 'night' | 'serif' | 'simple' | 'solarized'
 type transitions = 'default' | 'none' | 'fade' | 'slide' | 'convex' | 'concave' | 'zoom'
 
-export interface IDocumentOptions {
+
+export interface IRevealOptions {
   controlsTutorial: boolean
   controlsLayout: 'edges' | 'bottom-right'
   controlsBackArrows: 'faded' | 'hidden' | 'visible'
@@ -24,7 +27,9 @@ export interface IDocumentOptions {
   autoPlayMedia: boolean
   defaultTiming: number
   display: 'block'
-
+  separator: string
+  verticalSeparator: string
+  notesSeparator: string
   theme: themes
   highlightTheme: string | null
   customTheme: string | null
@@ -86,20 +91,17 @@ export interface IExtensionOptions {
   logLevel: LogLevel
 }
 
-export const getDocumentOptions = (configuration: Configuration) => {
-  return configuration as IDocumentOptions
-}
 
-export const getExtensionOptions = (configuration: Configuration) => {
-  return configuration as IExtensionOptions
-}
-
+/** The default configuration for the Reveal.js presentation. */
 export const defaultConfiguration: Configuration = {
   title: 'Reveal JS presentation',
   // tslint:disable-next-line:object-literal-sort-keys
   logoImg: null,
   description: '',
   author: '',
+  notesSeparator: 'note:',
+  separator: '^\\r?\\n---\\r?\\n$',
+  verticalSeparator: '^\\r?\\n--\\r?\\n$',
 
   customHighlightTheme: null,
   customTheme: null,
@@ -155,7 +157,7 @@ export const defaultConfiguration: Configuration = {
   browserPath: null,
   exportHTMLPath: `./export`,
   openFilemanagerAfterHTMLExport: true,
-  logLevel: LogLevel.Verbose,
+  logLevel: LogLevel.Error,
 
   enableMenu: true,
   enableChalkboard: true,
@@ -164,72 +166,35 @@ export const defaultConfiguration: Configuration = {
   enableSearch: true,
 }
 
+
+type ConfigurationDescriptionTypes = "string" | "boolean"
 export interface ConfigurationDescription {
-  label:string,
+  label: string,
   detail: string,
   documentation: string,
-  type: string,
+  type: ConfigurationDescriptionTypes,
   values?: string[]
 }
-export const getConfigurationDescription = (properties:object) => {
+export const getConfigurationDescription = (properties: object) => {
 
-  const allProps:ConfigurationDescription[] =
+  const allProps: ConfigurationDescription[] =
     Object.keys(properties)
-    .map(key => ({ label: key.substring(9), // remove "revealjs."
-                  detail: properties[key].description,
-                  documentation: `Default value:  ${properties[key].default}`,
-                  type: properties[key].type,
-                  values: properties[key].enum}))
+      .map(key => ({
+        label: key.substring(9), // remove "revealjs."
+        detail: properties[key].description,
+        documentation: `Default value:  ${properties[key].default}`,
+        type: properties[key].type,
+        values: properties[key].enum
+      }))
 
   return allProps
 }
 
+export const configPefix = "revealjs"
 
-
-interface ConfigurationProviderEvents {
-  updated: (Configuration) => void
-  error: (error: Error) => void
+export const getConfig = () => {
+  const workspaceConfig = workspace.getConfiguration(configPefix) as unknown as Configuration
+  return { ...defaultConfiguration, ...workspaceConfig } as Configuration
 }
 
-
-
-export default class ConfigurationProvider extends (EventEmitter as new () => TypedEmitter<ConfigurationProviderEvents>) {
-  #workspaceConfig: Configuration
-  #documentConfig: Configuration
-  #configuration: Configuration
-
-  constructor() {
-    super()
-    this.#workspaceConfig = workspace.getConfiguration(extensionId) as unknown as Configuration
-    this.#documentConfig = {} as Configuration
-    this.#configuration = defaultConfiguration
-  }
-
-  public get configuration() { return this.#configuration }
-  set configuration(v : Configuration) { this.#configuration = v; this.emit('updated', this.configuration) }
-  
-
-  public get documentConfig() { return this.#documentConfig }
-  public set documentConfig(v: Configuration) {
-    if (!isDeepStrictEqual(this.#documentConfig, v)) {
-      this.#documentConfig = v
-      this.#refresh()
-    }
-  }
-
-  public get workspaceConfig() {
-    return this.#workspaceConfig
-  }
-
-  public reloadWorkspaceConfig() {
-    const loaded = workspace.getConfiguration(extensionId) as unknown as Configuration
-    if (!isDeepStrictEqual(this.#workspaceConfig, loaded)) {
-      this.#workspaceConfig = loaded
-      this.#refresh()
-    }
-  }
-
-  #refresh = () => {
-    this.configuration = { ...defaultConfiguration, ...this.#workspaceConfig, ...this.#documentConfig }
-  }
-}
+export const mergeConfig = (workspaceConfig, documentConfig) => ({ ...defaultConfiguration, ...workspaceConfig, ...documentConfig } as Configuration)
