@@ -60,8 +60,8 @@ export interface IRevealOptions {
   backgroundTransition: transitions
   viewDistance: number
 
-  width: number,
-  height: number,
+  width: number | string,
+  height: number | string,
   margin: number,
   minScale: number,
   maxScale: number,
@@ -82,6 +82,9 @@ export interface IRevealOptions {
   enableTitleFooter: boolean
   enableZoom: boolean
   enableSearch: boolean
+
+  css: string[]
+  cssvariables: object | null
 }
 export interface IExtensionOptions {
   slideExplorerEnabled: boolean
@@ -164,6 +167,9 @@ export const defaultConfiguration: Configuration = {
   enableTitleFooter: true,
   enableZoom: true,
   enableSearch: true,
+
+  css: [],
+  cssvariables: null
 }
 
 

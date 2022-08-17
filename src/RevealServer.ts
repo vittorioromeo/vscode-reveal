@@ -1,13 +1,11 @@
 import * as http from 'http'
-import Koa from 'koa'
-import cors from '@koa/cors'
-import render from 'koa-ejs'
-import koalogger from 'koa-logger'
-import serve from 'koa-static-server'
+import * as fs from 'fs'
+import express from 'express'
+import * as ejs from 'ejs'
+import cors from 'cors'
+import morgan from 'morgan'
 import * as path from 'path'
-
 import markdownit from './Markdown-it'
-
 import { exportHTML, IExportOptions } from './ExportHTML'
 import { Disposable } from './dispose'
 import { RevealContext } from './RevealContext'
@@ -16,18 +14,22 @@ const {spawnSync} = require('child_process')
 
 /** Http server to serve reveal presentation */
 export class RevealServer extends Disposable {
-  public readonly app = new Koa()
+
+  public readonly app = express()
+
   private server: http.Server | null = null
   private readonly host = 'localhost'
-
-  public isInExport = false
-
 
   constructor(private readonly context: RevealContext) {
     super()
     this.configure()
   }
 
+
+  /**
+   * If the server is not listening, start the server and log the server's status.
+   * @returns The uri of the server.
+   */
   public start() {
     try {
       if (!this.isListening) {
@@ -48,7 +50,7 @@ export class RevealServer extends Disposable {
   }
 
   /** Stop listening */
-  stop(): void {
+  public stop(): void {
     if (this.isListening && this.server) {
       this.server.close()
       this.context.logger.debug(`SERVER: stopped`)
@@ -71,17 +73,27 @@ export class RevealServer extends Disposable {
     return `http://${this.host}:${addr.port}/`
   }
 
+  /** The function configures the express app to serve the presentation */
   private configure() {
     const app = this.app
     const context = this.context
 
+
+
+    //disable cache
+    app.set('etag', false)
+    app.use((req, res, next) => {
+      res.set('Cache-Control', 'no-store')
+      next()
+    })
+
+    // Set EJS as view
+    app.set('view engine', 'ejs');
+    app.engine('ejs', ejs.__express)
+    app.set('views', path.resolve(context.extensionPath, 'views'));
     app.use(cors())
     // LOG REQUEST
-    app.use(
-      koalogger((str) => {
-        context.logger.debug(str)
-      })
-    )
+    app.use(morgan(':method :url :status :res[content-length] - :response-time ms', { stream: { write: (str) => context.logger.info(str) } }))
 
     // EXPORT
     app.use(this.exportMiddleware(exportHTML, () => context.isInExport))
@@ -96,65 +108,104 @@ export class RevealServer extends Disposable {
     })
 
     // MAIN FILE
-    app.use(async (ctx, next) => {
-      if (ctx.path !== '/') {
-        return next()
+    app.use((req, res, next) => {
+      if (req.path !== '/') {
+        next()
       }
+      else {
 
-      var slides = context.slides;
-      const rootDir = context.dirname;
+        let init: string | null = null;
+        if (context.dirname) {
+          const initPath = path.join(context.dirname, 'init.js')
+          if (fs.existsSync(initPath)) {
+            init = fs.readFileSync(initPath, "utf8");
+          }
+        }
 
-      const rootDirEscaped = rootDir.replace(/\\/g, '\\\\');
-      const rootDirDefine = `@@$ const SLIDE_PARENT_DIRECTORY = '${rootDirEscaped}';`;
+        var slides = context.slides;
+        const rootDir = context.dirname;
 
-      const slideSeparator = "!$$$$$$$$!";
-      const allSlidesText = rootDirDefine + "\n\n" + slides.map(s => s.text).join(slideSeparator);
+        const rootDirEscaped = rootDir.replace(/\\/g, '\\\\');
+        const rootDirDefine = `@@$ const SLIDE_PARENT_DIRECTORY = '${rootDirEscaped}';`;
 
-      const proc = spawnSync('C:/OHWorkspace/majsdown/build/majsdown-converter.exe', [], { input: allSlidesText, encoding: 'utf-8' });
-      const procOut = String(proc.output[1]);
+        const slideSeparator = "!$$$$$$$$!";
+        const allSlidesText = rootDirDefine + "\n\n" + slides.map(s => s.text).join(slideSeparator);
 
-      const processedSlides = procOut.split(slideSeparator);
-      processedSlides.forEach((elem, i) => { slides[i].text = elem; });
+        const proc = spawnSync('C:/OHWorkspace/majsdown/build/majsdown-converter.exe', [], { input: allSlidesText, encoding: 'utf-8' });
+        const procOut = String(proc.output[1]);
 
-      const htmlSlides = context.slides.map((s) => ({
-        ...s,
-        html: markdownit.render(s.text),
-        children: s.verticalChildren.map((c) => ({ ...c, html: markdownit.render(c.text) })),
-      }))
-      ctx.state = { slides: htmlSlides, ...context.configuration, rootUrl: this.uri }
-      await ctx.render('reveal')
+        const processedSlides = procOut.split(slideSeparator);
+        processedSlides.forEach((elem, i) => { slides[i].text = elem; });
+
+        const htmlSlides = context.slides.map((s) => ({
+          ...s,
+          html: markdownit.render(s.text),
+          children: s.verticalChildren.map((c) => ({ ...c, html: markdownit.render(c.text) })),
+        }))
+
+        res.render('index', { slides: htmlSlides, ...context.configuration, rootUrl: this.uri, init })
+
+      }
     })
-
-    // STATIC LIBS
-    const libsPAth = path.join(context.extensionPath, 'libs')
-    app.use(serve({ rootDir: libsPAth, rootPath: '/libs' }))
-
-    // STATIC RELATIVE TO MD FILE
-    if (context.dirname) {
-      app.use(serve({ rootDir: context.dirname, rootPath: '/' }))
-    }
 
     // ERROR HANDLER
-    app.on('error', (err) => {
-      context.logger.error(err)
-    })
+    app.use(function (err, req, res, next) {
+      context.logger.error(err.stack)
+      res.status(500).send(err.stack);
+    });
   }
 
-
+  /* A middleware function that is used to export the presentation to a folder. */
   private readonly exportMiddleware = (exportfn: (ExportOptions) => Promise<void>, isInExport) => {
 
     const { exportPath } = this.context
 
-    return async (ctx: Koa.ParameterizedContext<Koa.DefaultState, Koa.DefaultContext, { path: string }>, next) => {
-      await next()
-      if (isInExport()) {
-        const opts: IExportOptions =
-          typeof ctx.body === 'string'
-            ? { folderPath: exportPath, url: ctx.originalUrl.split('?')[0], srcFilePath: null, data: ctx.body }
-            : { folderPath: exportPath, url: ctx.originalUrl.split('?')[0], srcFilePath: ctx.body.path, data: null }
+    return async (req: express.Request, res: express.Response, next: express.NextFunction) => {
 
-        await exportfn(opts)
+      if (isInExport()) {
+
+        console.log("in export");
+        const oldWrite = res.write
+        const oldEnd = res.end;
+
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const chunks: any[] = [];
+
+        res.write = (chunk, ...args) => {
+          chunks.push(chunk);
+          // @ts-ignore
+          return oldWrite.apply(res, [chunk, ...args]);
+        };
+        // @ts-ignore
+        res.end = async (chunk, ...args) => {
+          this.context.logger.info(`${req.originalUrl.split('?')[0]} - ${chunks.length}`)
+          if (chunk) {
+            chunks.push(chunk);
+          }
+          try {
+            let body = "";
+            if (chunks.length > 0 && typeof chunks[0] === 'string') {
+              body = body.concat(...(chunks as string[]));
+            }
+            else {
+              body = Buffer.concat(chunks).toString('utf8');
+            }
+
+
+            const opts: IExportOptions = { folderPath: exportPath, url: req.originalUrl.split('?')[0], srcFilePath: null, data: body }
+            await exportfn(opts);
+          }
+          catch (error) {
+            this.context.logger.info(`Error : ${error}`)
+          }
+
+          // @ts-ignore
+          return oldEnd.apply(res, [chunk, ...args]);
+        };
       }
+      next()
+
+
     }
   }
 
