@@ -98,6 +98,15 @@ export class RevealServer extends Disposable {
     // EXPORT
     app.use(this.exportMiddleware(exportHTML, context.isInExport))
 
+    // STATIC LIBS
+    const libsPAth = path.join(context.extensionPath, 'libs')
+    app.use('/libs', express.static(libsPAth, { cacheControl: false, etag: false, immutable: false }));
+
+    // STATIC RELATIVE TO MD FILE if file is saved
+    if (context.dirname) {
+      app.use('/', express.static(context.dirname, { cacheControl: false, etag: false, immutable: false }));
+    }
+
     // MAIN FILE
     app.use((req, res, next) => {
       if (req.path !== '/') {
@@ -113,20 +122,17 @@ export class RevealServer extends Disposable {
           }
         }
 
-        var slides = context.slides;
         const rootDir = context.dirname;
-
         const rootDirEscaped = rootDir.replace(/\\/g, '\\\\');
         const rootDirDefine = `@@$ const SLIDE_PARENT_DIRECTORY = '${rootDirEscaped}';`;
 
         const slideSeparator = "!$$$$$$$$!";
-        const allSlidesText = rootDirDefine + "\n\n" + slides.map(s => s.text).join(slideSeparator);
+        const allSlidesText = rootDirDefine + "\n\n" + context.slides.map(s => s.text).join(slideSeparator);
 
         const proc = spawnSync('C:/OHWorkspace/majsdown/build/majsdown-converter.exe', [], { input: allSlidesText, encoding: 'utf-8' });
         const procOut = String(proc.output[1]);
 
-        const processedSlides = procOut.split(slideSeparator);
-        processedSlides.forEach((elem, i) => { slides[i].text = elem; });
+        procOut.split(slideSeparator).forEach((elem, i) => { context.slides[i].text = elem; });
 
         const htmlSlides = context.slides.map((s) => ({
           ...s,
