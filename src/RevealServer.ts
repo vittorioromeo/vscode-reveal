@@ -115,7 +115,7 @@ export class RevealServer extends (EventEmitter as new () => TypedEmitter<Reveal
       const slideSeparator = "!$$$$$$$$!";
       const allSlidesText = slides.map(s => s.text).join(slideSeparator);
 
-      const proc = spawnSync('C:/OHW/majsdown/build/majsdown-converter.exe', [], { input: allSlidesText, encoding: 'utf-8' });
+      const proc = spawnSync('C:/OHWorkspace/majsdown/build/majsdown-converter.exe', [], { input: allSlidesText, encoding: 'utf-8' });
       const procOut = String(proc.output[1]);
 
       const processedSlides = procOut.split(slideSeparator);
