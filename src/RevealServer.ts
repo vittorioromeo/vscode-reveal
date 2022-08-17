@@ -96,16 +96,7 @@ export class RevealServer extends Disposable {
     app.use(morgan(':method :url :status :res[content-length] - :response-time ms', { stream: { write: (str) => context.logger.info(str) } }))
 
     // EXPORT
-    app.use(this.exportMiddleware(exportHTML, () => context.isInExport))
-
-    // EJS VIEW engine
-    render(app, {
-      root: path.resolve(context.extensionPath, 'views'),
-      layout: 'template.4.1.3',
-      viewExt: 'ejs',
-      cache: false,
-      debug: false,
-    })
+    app.use(this.exportMiddleware(exportHTML, context.isInExport))
 
     // MAIN FILE
     app.use((req, res, next) => {

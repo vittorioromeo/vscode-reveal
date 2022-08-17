@@ -3,7 +3,7 @@
  * Path: c:\DATA\GITHUB\vscode-reveal
  * Created Date: Wednesday, October 23rd 2019, 2:31:17 pm
  * Author: Vincent Bourdon
- * 
+ *
  * Copyright (c) 2022 Your Company
  */
 
@@ -24,7 +24,7 @@ import {getConfigurationDescription, getConfig} from './Configuration'
 
 export function activate(context: ExtensionContext) {
   const config = getConfig()
-  
+
   const outputChannel = window.createOutputChannel(context.extension.packageJSON.displayName)
   const logger = new Logger( (s) => outputChannel.appendLine(s), config.logLevel )
   //logger.onDidLevelChanged(level => logger.info(`log level changed to ${level} `))
@@ -34,7 +34,7 @@ export function activate(context: ExtensionContext) {
 
   const main = new MainController(logger, context, configDesc, config, window.activeTextEditor)
 
-  
+
   commands.executeCommand('setContext', 'slideExplorerEnabled', config.slideExplorerEnabled)
 
   const registerCmd = (cmdName, fn) => {
