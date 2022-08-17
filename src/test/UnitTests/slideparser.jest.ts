@@ -1,10 +1,9 @@
-import { countLines, countLinesToSlide } from '../src/utils'
-import SlideParser from '../src/SlideParser'
+import { countLines, countLinesToSlide } from '../../utils'
+import parser from '../../SlideParser'
+import {defaultConfiguration} from "../../Configuration"
 
 // const sampleFile = fs.readFileSync('../sample.md').toString()
 
-
-const parser = new SlideParser()
 
 const slideContent = `# Title One
 
@@ -30,7 +29,7 @@ content !
 
 ## Sub Two`
 
-const {frontmatter, slides} = parser.parse(slideContent)
+const { slides} = parser.parse(slideContent, defaultConfiguration)
 
 test('Parse Slide content', () => {
   expect(slides.length).toBe(3)
@@ -142,7 +141,7 @@ test('Extract slide attributes', () => {
   const content = `<!-- .slide: class="toto" data-something -->
 # title`
 
-  const {frontmatter,slides} = parser.parse(content)
+  const {slides} = parser.parse(content,defaultConfiguration)
 
   expect(slides[0]).toEqual({
     index: 0,

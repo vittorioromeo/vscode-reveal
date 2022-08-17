@@ -14,8 +14,8 @@
 
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-	<link rel="stylesheet" href="<%= rootUrl %>libs/reveal.js/4.1.3/reset.css">
-	<link rel="stylesheet" href="<%= rootUrl %>libs/reveal.js/4.1.3/reveal.css">
+	<link rel="stylesheet" href="libs/reveal.js/4.1.3/reset.css">
+	<link rel="stylesheet" href="libs/reveal.js/4.1.3/reveal.css">
 
 	
 	
@@ -23,28 +23,28 @@
 
 	  <!-- highlight Theme -->
   	<% if (highlightTheme) { %>
-	  <link rel="stylesheet" href="<%= rootUrl %>libs/highlight.js/11.3.1/styles/<%=highlightTheme%>.min.css">
+	  <link rel="stylesheet" href="libs/highlight.js/11.3.1/styles/<%=highlightTheme%>.min.css">
 	<%}%>
 	<% if (highlightTheme == null) { %>
-	<link rel="stylesheet" href="<%= rootUrl %>libs/highlight.js/11.3.1/styles/monokai.min.css">
+	<link rel="stylesheet" href="libs/highlight.js/11.3.1/styles/monokai.min.css">
 	<%}%>
 		
-	<link rel="stylesheet" href="<%= rootUrl %>libs/reveal.js/4.1.3/plugin/chalkboard/style.css">
+	<link rel="stylesheet" href="libs/reveal.js/4.1.3/plugin/chalkboard/style.css">
 	
 	
 	<% if (enableMenu ) { %>
-		<link rel="stylesheet" href="<%= rootUrl %>libs/reveal.js/4.1.3/plugin/customcontrols/style.css">
+		<link rel="stylesheet" href="libs/reveal.js/4.1.3/plugin/customcontrols/style.css">
 	<%}%>
-	<link rel="stylesheet" href="<%= rootUrl %>libs/styles/tasklist.css">
+	<link rel="stylesheet" href="libs/styles/tasklist.css">
 
 
 
   <!-- Revealjs Theme -->
   <% if (theme) { %>
-  	<link rel="stylesheet" href="<%= rootUrl %>libs/reveal.js/4.1.3/theme/<%=theme%>.css" id="theme">
+  	<link rel="stylesheet" href="libs/reveal.js/4.1.3/theme/<%=theme%>.css" id="theme">
   <%}%>
   <% if (!theme) { %>
-  	<link rel="stylesheet" href="<%= rootUrl %>libs/reveal.js/4.1.3/theme/black.css" id="theme">
+  	<link rel="stylesheet" href="libs/reveal.js/4.1.3/theme/black.css" id="theme">
   <%}%>
 
 
@@ -77,33 +77,40 @@
   </div>
 
   	
-	<script src="<%= rootUrl %>libs/reveal.js/4.1.3/reveal.js"></script>
-	<% if(enableZoom) {%><script src="<%= rootUrl %>libs/reveal.js/4.1.3/plugin/zoom/zoom.js"></script><%}%>
-	<script src="<%= rootUrl %>libs/reveal.js/4.1.3/plugin/notes/notes.js"></script>
-	<% if(enableSearch) {%><script src="<%= rootUrl %>libs/reveal.js/4.1.3/plugin/search/search.js"></script><%}%>
-	<script src="<%= rootUrl %>libs/reveal.js/4.1.3/plugin/markdown/markdown.js"></script>
-	<script src="<%= rootUrl %>libs/reveal.js/4.1.3/plugin/highlight/highlight.js"></script>
-	<% if(enableMenu) {%><script src="<%= rootUrl %>libs/reveal.js/4.1.3/plugin/menu/menu.js"></script><%}%>
-	<script src="<%= rootUrl %>libs/reveal.js/4.1.3/plugin/math/math.js"></script>
+	<script src="libs/reveal.js/4.1.3/reveal.js"></script>
+	<% if(enableZoom) {%><script src="libs/reveal.js/4.1.3/plugin/zoom/zoom.js"></script><%}%>
+	<script src="libs/reveal.js/4.1.3/plugin/notes/notes.js"></script>
+	<% if(enableSearch) {%><script src="libs/reveal.js/4.1.3/plugin/search/search.js"></script><%}%>
+	<script src="libs/reveal.js/4.1.3/plugin/markdown/markdown.js"></script>
+	<script src="libs/reveal.js/4.1.3/plugin/highlight/highlight.js"></script>
+	<% if(enableMenu) {%><script src="libs/reveal.js/4.1.3/plugin/menu/menu.js"></script><%}%>
+	<script src="libs/reveal.js/4.1.3/plugin/math/math.js"></script>
 
-	<script src="<%= rootUrl %>libs/reveal.js/4.1.3/plugin/fullscreen/plugin.js"></script>
+	<script src="libs/reveal.js/4.1.3/plugin/fullscreen/plugin.js"></script>
   
-  	<script src="<%= rootUrl %>libs/reveal.js/4.1.3/plugin/animate/plugin.js"></script>
-  	<script src="<%= rootUrl %>libs/reveal.js/4.1.3/plugin/animate/svg.min.js"></script>
+  	<script src="libs/reveal.js/4.1.3/plugin/animate/plugin.js"></script>
+  	<script src="libs/reveal.js/4.1.3/plugin/animate/svg.min.js"></script>
   
-  	 <!--	<script src="<%= rootUrl %>libs/reveal.js/4.1.3/plugin/anything/plugin.js"></script> -->
+  	<script src="libs/reveal.js/4.1.3/plugin/anything/plugin.js"></script>
+	  <script src="libs/reveal.js/4.1.3/plugin/anything/Chart.min.js"></script>
+	<script src="libs/reveal.js/4.1.3/plugin/anything/d3/d3.v3.min.js"></script>				
+	<script src="libs/reveal.js/4.1.3/plugin/anything/d3.patch.js"></script>			
+	<script src="libs/reveal.js/4.1.3/plugin/anything/d3/queue.v1.min.js"></script>		
+	<script src="libs/reveal.js/4.1.3/plugin/anything/d3/topojson.v1.min.js"></script>		
+	<script src="libs/reveal.js/4.1.3/plugin/anything/function-plot.js"></script>
 
- <!--	<script src="<%= rootUrl %>libs/reveal.js/4.1.3/plugin/audio-slideshow/plugin.js"></script>  -->
-<!--	<script src="<%= rootUrl %>libs/reveal.js/4.1.3/plugin/audio-slideshow/recorder.js"></script>-->
-<!--	<script src="<%= rootUrl %>libs/reveal.js/4.1.3/plugin/audio-slideshow/RecordRTC.js"></script>-->
+ <!--	<script src="libs/reveal.js/4.1.3/plugin/audio-slideshow/plugin.js"></script>  -->
+<!--	<script src="libs/reveal.js/4.1.3/plugin/audio-slideshow/recorder.js"></script>-->
+<!--	<script src="libs/reveal.js/4.1.3/plugin/audio-slideshow/RecordRTC.js"></script>-->
 
-<% if(enableChalkboard) {%><script src="<%= rootUrl %>libs/reveal.js/4.1.3/plugin/chalkboard/plugin.js"></script><%}%>
-	<script src="<%= rootUrl %>libs/reveal.js/4.1.3/plugin/customcontrols/plugin.js"></script>
-	<script src="<%= rootUrl %>libs/reveal.js/4.1.3/plugin/embed-tweet/plugin.js"></script>
+<% if(enableChalkboard) {%><script src="libs/reveal.js/4.1.3/plugin/chalkboard/plugin.js"></script><%}%>
+	<script src="libs/reveal.js/4.1.3/plugin/customcontrols/plugin.js"></script>
+	<script src="libs/reveal.js/4.1.3/plugin/embed-tweet/plugin.js"></script>
 
-	<script src="<%= rootUrl %>libs/reveal.js/4.1.3/plugin/chart/chart.min.js"></script>
-	<script src="<%= rootUrl %>libs/reveal.js/4.1.3/plugin/chart/plugin.js"></script>
+	<script src="libs/reveal.js/4.1.3/plugin/chart/chart.min.js"></script>
+	<script src="libs/reveal.js/4.1.3/plugin/chart/plugin.js"></script>
 
+<script src="libs/reveal.js/4.1.3/plugin/verticator/verticator.js"></script>
   <script>
 
 		const printPlugins = [
@@ -122,13 +129,14 @@
 				RevealMarkdown, 
 				<% if(enableMenu) {%>RevealMenu, <%}%>
 				RevealFullscreen,
-				//RevealAnything,
+				RevealAnything,
 				//RevealAudioSlideshow,
 				//RevealAudioRecorder,
 				<% if(enableMenu) {%>RevealCustomControls, <%}%>
 				// poll
 				// question
 				// seminar
+				Verticator 
 				 ]
 
 
@@ -262,6 +270,21 @@
 				// pass other options into `MathJax.Hub.Config()`
 				TeX: { Macros: { RR: "{\\bf R}" } }
 				},
+				anything: [ 
+				{
+		className: "plot",
+		defaults: {width:500, height: 500, grid:true},
+		initialize: (function(container, options){ options.target = "#"+container.id; functionPlot(options) })
+	 },
+	 {
+		className: "chart",  
+		initialize: (function(container, options){ container.chart = new Chart(container.getContext("2d"), options);  })
+	 },
+	 {
+		className: "anything",
+		initialize: (function(container, options){ if (options && options.initialize) { options.initialize(container)} })
+	 },
+					],
 			// Learn about plugins: https://revealjs.com/plugins/
 			plugins: (window.location.search.match(/print-pdf/gi) ? printPlugins : plugins ) 
 		});

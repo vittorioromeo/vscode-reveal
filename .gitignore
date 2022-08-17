@@ -101,6 +101,7 @@ xunit.xml
 **/.nyc_output/*
 **/.scannerwork/*
 
-/export/*
+**/export/
 
 *.vsix
+test-report.xml
