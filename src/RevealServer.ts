@@ -10,7 +10,7 @@ import { exportHTML, IExportOptions } from './ExportHTML'
 import { Disposable } from './dispose'
 import { RevealContext } from './RevealContext'
 
-const {spawnSync} = require('child_process')
+const { spawnSync } = require('child_process')
 
 /** Http server to serve reveal presentation */
 export class RevealServer extends Disposable {
