@@ -129,10 +129,20 @@ export class RevealServer extends Disposable {
         const slideSeparator = "!$$$$$$$$!";
         const allSlidesText = rootDirDefine + "\n\n" + context.slides.map(s => s.text).join(slideSeparator);
 
-        const proc = spawnSync('C:/OHWorkspace/majsdown/build/majsdown-converter.exe', [], { input: allSlidesText, encoding: 'utf-8' });
-        const procOut = String(proc.output[1]);
+        // TODO: make this path customizable via VSCode extension setting
+        const proc = spawnSync('C:/OHW/majsdown/build/majsdown-converter.exe', [], { input: allSlidesText, encoding: 'utf-8' });
+        const procStdErr = String(proc.output[2]);
 
-        procOut.split(slideSeparator).forEach((elem, i) => { context.slides[i].text = elem; });
+        if (procStdErr != '' && procStdErr != null)
+        {
+          // TODO: improve, doesn't make sense to split here
+          procStdErr.split(slideSeparator).forEach((elem, i) => { context.slides[i].text = elem; });
+        }
+        else
+        {
+          const procOut = String(proc.output[1]);
+          procOut.split(slideSeparator).forEach((elem, i) => { context.slides[i].text = elem; });
+        }
 
         const htmlSlides = context.slides.map((s) => ({
           ...s,
@@ -140,8 +150,7 @@ export class RevealServer extends Disposable {
           children: s.verticalChildren.map((c) => ({ ...c, html: markdownit.render(c.text) })),
         }))
 
-        res.render('index', { slides: htmlSlides, ...context.configuration, rootUrl: this.uri, init })
-
+        res.render('index', { slides: htmlSlides, ...context.configuration, rootUrl: this.uri, init });
       }
     })
 
