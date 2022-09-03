@@ -140,8 +140,8 @@ export class RevealServer extends Disposable {
         }
         else
         {
-          const procOut = String(proc.output[1]);
-          procOut.split(slideSeparator).forEach((elem, i) => { context.slides[i].text = elem; });
+          const procStdOut = String(proc.output[1]);
+          procStdOut.split(slideSeparator).forEach((elem, i) => { context.slides[i].text = elem; });
         }
 
         const htmlSlides = context.slides.map((s) => ({
