@@ -126,7 +126,7 @@ export class RevealServer extends Disposable {
         const rootDirEscaped = rootDir.replace(/\\/g, '\\\\');
         const rootDirDefine = `@@$ const SLIDE_PARENT_DIRECTORY = '${rootDirEscaped}';`;
 
-        const slideSeparator = "!$$$$$$$$!";
+        const slideSeparator = "!$*$*$!";
         const allSlidesText = rootDirDefine + "\n\n" + context.slides.map(s => s.text).join(slideSeparator);
 
         // TODO: make this path customizable via VSCode extension setting
