@@ -26,7 +26,7 @@ export default class WebviewPane
     public set title(title:string) {
         this.webviewPanel.title = title;
     }
-    
+
     public update(url:string) {
         this.webviewPanel.webview.html = `
         <!doctype html>
@@ -69,7 +69,7 @@ export default class WebviewPane
       //       return
       //   }
       // }, null)
-  
+
     public dispose() {
         this.#onDidDispose.fire()
     }
