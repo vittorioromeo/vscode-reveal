@@ -23,6 +23,10 @@ export class RevealContext extends Disposable {
   public configuration: Configuration
   private position: ISlidePosition = { horizontal: 0, vertical: 0 }
 
+  public lastAllSlidesText: string = ""
+  public lastHtmlSlides: any = []
+  public forcedRefreshes: number = 2
+
   constructor(
     public editor: TextEditor,
     public logger: Logger,

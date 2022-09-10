@@ -9,6 +9,7 @@ import markdownit from './Markdown-it'
 import { exportHTML, IExportOptions } from './ExportHTML'
 import { Disposable } from './dispose'
 import { RevealContext } from './RevealContext'
+import { ISlide } from './ISlide'
 
 const { spawnSync } = require('child_process')
 
@@ -128,29 +129,55 @@ export class RevealServer extends Disposable {
 
         const slideSeparator = "!$*$*$!";
         const allSlidesText = rootDirDefine + "\n\n" + context.slides.map(s => s.text).join(slideSeparator);
+        const somethingChanged = context.forcedRefreshes > 0 || context.lastAllSlidesText !== allSlidesText
 
-        // TODO: make this path customizable via VSCode extension setting
-        const proc = spawnSync('C:/OHW/majsdown/build/majsdown-converter.exe', [], { input: allSlidesText, encoding: 'utf-8' });
-        const procStdErr = String(proc.output[2]);
-
-        if (procStdErr != '' && procStdErr != null)
+        if (context.forcedRefreshes > 0)
         {
-          // TODO: improve, doesn't make sense to split here
-          procStdErr.split(slideSeparator).forEach((elem, i) => { context.slides[i].text = elem; });
-        }
-        else
-        {
-          const procStdOut = String(proc.output[1]);
-          procStdOut.split(slideSeparator).forEach((elem, i) => { context.slides[i].text = elem; });
+          --context.forcedRefreshes;
         }
 
-        const htmlSlides = context.slides.map((s) => ({
-          ...s,
-          html: markdownit.render(s.text),
-          children: s.verticalChildren.map((c) => ({ ...c, html: markdownit.render(c.text) })),
-        }))
+        context.lastAllSlidesText = allSlidesText;
 
-        res.render('index', { slides: htmlSlides, ...context.configuration, rootUrl: this.uri, init });
+        if (somethingChanged)
+        {
+          // TODO: figure out how to idiomatically copy
+          const copySlide = (slide: ISlide): ISlide =>
+          {
+            return {
+              "title": slide.title,
+              "index": slide.index,
+              "text": slide.text.toString(),
+              "verticalChildren": slide.verticalChildren,
+              "attributes": slide.attributes
+            };
+          };
+
+          const newSlides: ISlide[] = context.slides.map(copySlide);
+
+          // TODO: make this path customizable via VSCode extension setting
+          const proc = spawnSync('C:/OHW/majsdown/build/majsdown-converter.exe', [], { input: allSlidesText, encoding: 'utf-8' });
+          const procStdErr = String(proc.output[2]);
+
+          if (procStdErr != '' && procStdErr != null)
+          {
+            newSlides.forEach(slide => slide.text = procStdErr);
+          }
+          else
+          {
+            const procStdOut = String(proc.output[1]);
+            procStdOut.split(slideSeparator).forEach((elem, i) => { newSlides[i].text = elem; });
+          }
+
+          const htmlSlides = newSlides.map((s) => ({
+            ...s,
+            html: markdownit.render(s.text),
+            children: s.verticalChildren.map((c) => ({ ...c, html: markdownit.render(c.text) })),
+          }));
+
+          context.lastHtmlSlides = htmlSlides;
+        }
+
+        res.render('index', { slides: context.lastHtmlSlides, ...context.configuration, rootUrl: this.uri, init });
       }
     })
 
