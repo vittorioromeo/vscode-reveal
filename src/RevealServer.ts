@@ -140,19 +140,8 @@ export class RevealServer extends Disposable {
 
         if (somethingChanged)
         {
-          // TODO: figure out how to idiomatically copy
-          const copySlide = (slide: ISlide): ISlide =>
-          {
-            return {
-              "title": slide.title,
-              "index": slide.index,
-              "text": slide.text.toString(),
-              "verticalChildren": slide.verticalChildren,
-              "attributes": slide.attributes
-            };
-          };
-
-          const newSlides: ISlide[] = context.slides.map(copySlide);
+          // Deep-copy each slide
+          const newSlides: ISlide[] = context.slides.map(slide => ({ ...slide }));
 
           // TODO: make this path customizable via VSCode extension setting
           const proc = spawnSync('C:/OHW/majsdown/build/majsdown-converter.exe', [], { input: allSlidesText, encoding: 'utf-8' });

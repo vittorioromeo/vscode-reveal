@@ -169,7 +169,7 @@ export default class MainController {
 
   // debounce parse and refresh
   #refreshTimeout: NodeJS.Timeout | null = null
-  refresh(wait = 50) {
+  refresh(wait = 100) {
     if (!this.currentContext) return
 
     if (this.#refreshTimeout) {
