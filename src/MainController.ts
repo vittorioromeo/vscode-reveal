@@ -64,8 +64,11 @@ export default class MainController {
   private OnEditorEvent(editor: TextEditor, newPosition: Position) {
     if (isMarkdownFile(editor.document)) {
       this.currentContext = this.revealContexts.getOrAdd(editor)
-      this.updatePosition(newPosition)
-      this.refresh()
+      if (this.updatePosition(newPosition))
+      {
+        // Changed the last slide index
+        this.refresh()
+      }
     }
   }
 
@@ -189,9 +192,9 @@ export default class MainController {
     }, wait)
   }
 
-  updatePosition(cursorPosition: Position) {
-    if (!this.currentContext) return
-    this.currentContext.updatePosition(cursorPosition)
+  updatePosition(cursorPosition: Position): boolean {
+    if (!this.currentContext) return false;
+    return this.currentContext.updatePosition(cursorPosition);
   }
 
   public goToSlide(topindex: number, verticalIndex: number) {

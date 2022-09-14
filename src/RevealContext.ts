@@ -26,6 +26,7 @@ export class RevealContext extends Disposable {
   public lastAllSlidesText: string = ""
   public lastHtmlSlides: any = []
   public forcedRefreshes: number = 2
+  public lastSlideIdx: number | null = null
 
   constructor(
     public editor: TextEditor,
@@ -81,15 +82,20 @@ export class RevealContext extends Disposable {
     return { frontmatter, slides }
   }
 
-  updatePosition(cursorPosition: Position) {
+  updatePosition(cursorPosition: Position): boolean {
     const start = new Position(0, 0)
     const range = new Range(start, cursorPosition)
     const { slides } = slideParser.parse(this.getText(range), this.configuration, false)
-    const currentSlide = slides[slides.length - 1]
+    const currentSlideIdx = slides.length - 1;
+    const currentSlide = slides[currentSlideIdx]
 
     this.position = currentSlide.verticalChildren
-      ? { horizontal: slides.length - 1, vertical: currentSlide.verticalChildren.length }
-      : { horizontal: slides.length - 1, vertical: 0 }
+      ? { horizontal: currentSlideIdx, vertical: currentSlide.verticalChildren.length }
+      : { horizontal: currentSlideIdx, vertical: 0 }
+
+    const changedSlide = this.lastSlideIdx !== currentSlideIdx;
+    this.lastSlideIdx = currentSlideIdx;
+    return changedSlide;
   }
 
   is(document: TextDocument) {

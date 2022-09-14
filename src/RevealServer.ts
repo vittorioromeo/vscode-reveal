@@ -144,6 +144,7 @@ export class RevealServer extends Disposable {
           const newSlides: ISlide[] = context.slides.map(slide => ({ ...slide }));
 
           // TODO: make this path customizable via VSCode extension setting
+          // TODO: `spawnSync` is the current performance bottleneck
           const proc = spawnSync('C:/OHW/majsdown/build/majsdown-converter.exe', [], { input: allSlidesText, encoding: 'utf-8' });
           const procStdErr = String(proc.output[2]);
 
