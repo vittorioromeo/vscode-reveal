@@ -64,7 +64,10 @@ export default class MainController {
   private OnEditorEvent(editor: TextEditor, newPosition: Position) {
     if (isMarkdownFile(editor.document)) {
       this.currentContext = this.revealContexts.getOrAdd(editor)
-      if (this.updatePosition(newPosition))
+
+      // TODO: this doesn't work because we need to update the last slide index when browsing the slides in the side view
+      //if (this.updatePosition(newPosition))
+      this.updatePosition(newPosition)
       {
         // Changed the last slide index
         this.refresh()
