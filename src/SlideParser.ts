@@ -64,8 +64,8 @@ export class SlideParser extends Disposable {
     const slides = slideContent.split(regex)
     return slides.map((s, i) => {
 
-      return this.#parseSlide(trimFirstLastEmptyLine(s), i, verticalSeparator)
-
+      // return this.#parseSlide(trimFirstLastEmptyLine(s), i, verticalSeparator)
+      return this.#parseSlide(s, i, verticalSeparator)
     })
   }
 
@@ -75,7 +75,8 @@ export class SlideParser extends Disposable {
     const slides = slideContent.split(regex)
 
     return slides.map((s, i) => {
-      const content = trimFirstLastEmptyLine(s)
+      // const content = trimFirstLastEmptyLine(s)
+      const content = s;
       return {
         title: findTitle(content),
         index: i,

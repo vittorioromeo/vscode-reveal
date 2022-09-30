@@ -125,10 +125,11 @@ export class RevealServer extends Disposable {
 
         const rootDir = context.dirname;
         const rootDirEscaped = rootDir.replace(/\\/g, '\\\\');
-        const rootDirDefine = `@@$ const SLIDE_PARENT_DIRECTORY = '${rootDirEscaped}';`;
+        const lineOffset = (context.frontmatter?.frontmatter ? (context.frontmatter.bodyBegin - 1) : 0) - 2;
+        const rootDirDefine = `@@$ const SLIDE_PARENT_DIRECTORY = '${rootDirEscaped}'; __mjsd_line(${lineOffset});`;
 
         const slideSeparator = "!$*$*$!";
-        const allSlidesText = rootDirDefine + "\n\n" + context.slides.map(s => s.text).join(slideSeparator);
+        const allSlidesText = rootDirDefine + "\n\n" + context.slides.map(s => s.text).join(`\n${slideSeparator}\n`);
         const somethingChanged = context.forcedRefreshes > 0 || context.lastAllSlidesText !== allSlidesText
 
         if (context.forcedRefreshes > 0)
@@ -150,7 +151,7 @@ export class RevealServer extends Disposable {
 
           if (procStdErr != '' && procStdErr != null)
           {
-            newSlides.forEach(slide => slide.text = procStdErr);
+            newSlides.forEach(slide => slide.text = "``````text\n" + procStdErr + "\n``````\n");
           }
           else
           {
