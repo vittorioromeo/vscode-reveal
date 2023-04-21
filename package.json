@@ -469,7 +469,16 @@
           "default": true,
           "description": "Enable the chalkboard"
         },
-        "revealjs.enableZoom": {
+        "revealmajs.enableLaserPointer": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable the laser pointer"
+        },
+        "revealmajs.enableMouseClickNavigation": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable mouse click navigation for slides"
+        },
           "type": "boolean",
           "default": true,
           "description": "Enable the zoom plugin"

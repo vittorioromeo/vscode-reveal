@@ -79,6 +79,8 @@ export interface IRevealOptions {
 
   enableMenu: boolean
   enableChalkboard: boolean
+  enableLaserPointer: boolean
+  enableMouseClickNavigation: boolean
   enableTitleFooter: boolean
   enableZoom: boolean
   enableSearch: boolean
@@ -164,6 +166,8 @@ export const defaultConfiguration: Configuration = {
 
   enableMenu: true,
   enableChalkboard: true,
+  enableLaserPointer: true,
+  enableMouseClickNavigation: true,
   enableTitleFooter: true,
   enableZoom: true,
   enableSearch: true,
