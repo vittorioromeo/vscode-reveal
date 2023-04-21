@@ -1,6 +1,6 @@
 import open from 'open'
 
-export const EXPORT_PDF = 'vscode-revealjs.exportPDF'
+export const EXPORT_PDF = 'vscode-revealmajs.exportPDF'
 export type EXPORT_PDF = typeof EXPORT_PDF
 
 export const exportPDF = (getUri: () => string | undefined) => () => {

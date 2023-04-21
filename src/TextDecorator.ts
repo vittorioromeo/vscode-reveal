@@ -6,7 +6,7 @@ import { ConfigurationDescription } from './Configuration';
 const revealjsConfigKeyForeground = window.createTextEditorDecorationType({
     fontWeight: 'bold',
     fontStyle: 'italic',
-    color: new ThemeColor('revealjs.configKeyForeground'),
+    color: new ThemeColor('revealmajs.configKeyForeground'),
   })
   
 export default class TextDecorator {

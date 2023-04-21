@@ -15,7 +15,7 @@
 - ⏱ Many preconfigured plugins
 
 <div class="buttons">
-  <a href="https://marketplace.visualstudio.com/items?itemName=evilz.vscode-reveal" target="_blank"><span>Marketplace</span></a>
+  <a href="https://marketplace.visualstudio.com/items?itemName=vittorioromeo.vscode-reveal-majsdown" target="_blank"><span>Marketplace</span></a>
   <a href="#/README"><span>Get Started</span></a>
 </div>
 

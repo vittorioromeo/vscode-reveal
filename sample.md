@@ -94,7 +94,7 @@ graph LR;
 
 ---
 
-# vscode-reveal
+# vscode-reveal-majsdown
 
  Awesome VS code extension using The HTML Presentation Framework Revealjs
 

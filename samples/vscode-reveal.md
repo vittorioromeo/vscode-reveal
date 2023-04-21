@@ -12,7 +12,7 @@ theme: white
 !theme cerulean-outline
 scale 1500 width
 
-package "vscode-reveal" {
+package "vscode-reveal-majsdown" {
     ()  entry
     class extension{
         {static} +activate(context: ExtensionContext)

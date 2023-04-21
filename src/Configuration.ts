@@ -1,6 +1,6 @@
 /*
  * File: \src\Configuration.ts
- * Project: vscode-reveal
+ * Project: vscode-reveal-majsdown
  * Created Date: Sunday March 13th 2022
  * Author: evilz
  * -----
@@ -190,7 +190,7 @@ export const getConfigurationDescription = (properties: object) => {
   const allProps: ConfigurationDescription[] =
     Object.keys(properties)
       .map(key => ({
-        label: key.substring(9), // remove "revealjs."
+        label: key.substring(11), // remove "revealmajs."
         detail: properties[key].description,
         documentation: `Default value:  ${properties[key].default}`,
         type: properties[key].type,
