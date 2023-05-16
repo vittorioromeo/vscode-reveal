@@ -146,7 +146,7 @@ export class RevealServer extends Disposable {
 
           // TODO: make this path customizable via VSCode extension setting
           // TODO: `spawnSync` is the current performance bottleneck
-          const proc = spawnSync('C:/OHW/majsdown/build/majsdown-converter.exe', [], { input: allSlidesText, encoding: 'utf-8' });
+          const proc = spawnSync('C:/OHWorkspace/majsdown/build/majsdown-converter.exe', [], { input: allSlidesText, encoding: 'utf-8' });
           const procStdErr = String(proc.output[2]);
 
           if (procStdErr != '' && procStdErr != null)
