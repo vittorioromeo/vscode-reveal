@@ -1,6 +1,6 @@
 import open from 'open'
 
-export const SHOW_REVEALJS_IN_BROWSER = 'vscode-revealjs.showRevealJSInBrowser'
+export const SHOW_REVEALJS_IN_BROWSER = 'vscode-revealmajs.showRevealJSInBrowser'
 export type SHOW_REVEALJS_IN_BROWSER = typeof SHOW_REVEALJS_IN_BROWSER
 
 export const showRevealJSInBrowser = (getUri: () => string | undefined) => () => {

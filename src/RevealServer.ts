@@ -151,6 +151,7 @@ export class RevealServer extends Disposable {
 
           if (procStdErr != '' && procStdErr != null)
           {
+            // TODO: print proc status
             newSlides.forEach(slide => slide.text = "``````text\n" + procStdErr + "\n``````\n");
           }
           else

@@ -1,6 +1,6 @@
 /*
  * File: \src\CompletionItemProvider.ts
- * Project: vscode-reveal
+ * Project: vscode-reveal-majsdown
  * Created Date: Sunday March 13th 2022
  * Author: evilz
  * -----

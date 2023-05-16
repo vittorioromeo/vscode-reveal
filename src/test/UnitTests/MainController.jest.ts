@@ -10,7 +10,7 @@ const logger = new Logger(jest.fn(), LogLevel.Debug)
 
 const extentionContext: ExtensionContext = {
     extensionPath: 'e:\\PROJECTS\\GITHUB\\vscode-reveal',
-    extension: { id: 'evilz.vscode-reveal', extensionPath: 'e:\\PROJECTS\\GITHUB\\vscode-reveal' }
+    extension: { id: 'vittorioromeo.vscode-reveal-majsdown', extensionPath: 'e:\\PROJECTS\\GITHUB\\vscode-reveal' }
 } as ExtensionContext
 
 test('CurrentContext should be undefined when no editor is pass', () => {

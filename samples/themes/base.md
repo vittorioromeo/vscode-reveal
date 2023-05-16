@@ -69,13 +69,13 @@ function toto(){
 
 # Link	
 
-[vscode-reveal](https://marketplace.visualstudio.com/items?itemName=evilz.vscode-reveal)
+[vscode-reveal](https://marketplace.visualstudio.com/items?itemName=vittorioromeo.vscode-reveal-majsdown)
 
 ---
 
 # Image	
 
-![vscode-reveal](https://evilz.gallerycdn.vsassets.io/extensions/evilz/vscode-reveal/4.3.1/1656191323816/Microsoft.VisualStudio.Services.Icons.Default)
+![vscode-reveal](https://evilz.gallerycdn.vsassets.io/extensions/vittorioromeo/vscode-reveal/4.3.1/1656191323816/Microsoft.VisualStudio.Services.Icons.Default)
 
 ---
 

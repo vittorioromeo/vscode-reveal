@@ -52,6 +52,10 @@
   <link rel="stylesheet" href="<%=customTheme%>.css">
   <%}%>
 
+  <% if (enableLaserPointer) { %>
+  <link rel="stylesheet" href="libs/reveal.js/4.3.1/plugin/pointer/pointer.css" />
+  <%}%>
+
    <!-- css list -->
 	<% for(var i=0; i < css.length; i++) { %>
   <link rel="stylesheet" href="<%=css[i]%>">

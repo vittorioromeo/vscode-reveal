@@ -28,7 +28,7 @@ export function activate(context: ExtensionContext) {
   const outputChannel = window.createOutputChannel(context.extension.packageJSON.displayName)
   const logger = new Logger( (s) => outputChannel.appendLine(s), config.logLevel )
   //logger.onDidLevelChanged(level => logger.info(`log level changed to ${level} `))
-  logger.info('"vscode-reveal" is now active')
+  logger.info('"vscode-reveal-majsdown" is now active')
 
   const configDesc = getConfigurationDescription(context.extension.packageJSON.contributes.configuration.properties)
 
@@ -71,5 +71,5 @@ export function activate(context: ExtensionContext) {
 
 // this method is called when your extension is deactivated
 export function deactivate() {
-  console.log('"vscode-reveal" is now deactivated')
+  console.log('"vscode-reveal-majsdown" is now deactivated')
 }

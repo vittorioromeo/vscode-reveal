@@ -19,7 +19,7 @@ test('Should start extension @integration', async () => {
     const testDocument = await vscode.workspace.openTextDocument('../sample.md')
     await sleep(2000)
 
-    const vscodereveal = vscode.extensions.getExtension('evilz.vscode-reveal')
+    const vscodereveal = vscode.extensions.getExtension('vittorioromeo.vscode-reveal-majsdown')
 
     // vscodereveal!.should.exist('vscode extension')
 

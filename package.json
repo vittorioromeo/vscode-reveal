@@ -1,19 +1,19 @@
 {
-  "name": "vscode-reveal",
-  "displayName": "vscode-reveal",
-  "description": "Show markdown as revealJs presentation",
+  "name": "vscode-reveal-majsdown",
+  "displayName": "vscode-reveal-majsdown-majsdown",
+  "description": "Show majsdown as revealJs presentation",
   "version": "4.3.3",
-  "publisher": "evilz",
+  "publisher": "vittorioromeo",
   "author": "Vincent Bourdon",
   "license": "MIT",
   "icon": "logo.png",
   "preview": false,
   "repository": {
     "type": "git",
-    "url": "https://github.com/evilz/vscode-reveal"
+    "url": "https://github.com/vittorioromeo/vscode-reveal"
   },
   "engines": {
-    "vscode": "^1.68.0"
+    "vscode": "^1.71.0"
   },
   "categories": [
     "Other"
@@ -28,15 +28,15 @@
   "activationEvents": [
     "onLanguage:markdown",
     "onLanguage:majsdown",
-    "onCommand:vscode-revealjs.showSample",
-    "onCommand:vscode-revealjs.showRevealJS",
-    "onCommand:vscode-revealjs.showRevealJSInBrowser"
+    "onCommand:vscode-revealmajs.showSample",
+    "onCommand:vscode-revealmajs.showRevealJS",
+    "onCommand:vscode-revealmajs.showRevealJSInBrowser"
   ],
   "main": "./dist/extension.js",
   "contributes": {
     "colors": [
       {
-        "id": "revealjs.configKeyForeground",
+        "id": "revealmajs.configKeyForeground",
         "description": "Forground decoration color for the key of config in front matter",
         "defaults": {
           "dark": "#67b8e3ff",
@@ -47,48 +47,48 @@
     ],
     "commands": [
       {
-        "command": "vscode-revealjs.showRevealJS",
-        "title": "Revealjs: Show presentation by side",
+        "command": "vscode-revealmajs.showRevealJS",
+        "title": "revealmajs: Show presentation by side",
         "icon": {
           "light": "resources/light/split.svg",
           "dark": "resources/dark/split.svg"
         }
       },
       {
-        "command": "vscode-revealjs.showRevealJSInBrowser",
-        "title": "Revealjs: Open presentation in browser",
+        "command": "vscode-revealmajs.showRevealJSInBrowser",
+        "title": "revealmajs: Open presentation in browser",
         "icon": {
           "light": "resources/light/browser.svg",
           "dark": "resources/dark/browser.svg"
         }
       },
       {
-        "command": "vscode-revealjs.stopRevealJSServer",
-        "title": "Revealjs: Stop reveal server"
+        "command": "vscode-revealmajs.stopRevealJSServer",
+        "title": "revealmajs: Stop reveal server"
       },
       {
-        "command": "vscode-revealjs.goToSlide",
-        "title": "Revealjs: Go to slide"
+        "command": "vscode-revealmajs.goToSlide",
+        "title": "revealmajs: Go to slide"
       },
       {
-        "command": "vscode-revealjs.exportPDF",
-        "title": "Revealjs: Export in PDF",
+        "command": "vscode-revealmajs.exportPDF",
+        "title": "revealmajs: Export in PDF",
         "icon": {
           "light": "resources/light/pdf.svg",
           "dark": "resources/dark/pdf.svg"
         }
       },
       {
-        "command": "vscode-revealjs.exportHTML",
-        "title": "Revealjs: Export in HTML",
+        "command": "vscode-revealmajs.exportHTML",
+        "title": "revealmajs: Export in HTML",
         "icon": {
           "light": "resources/light/html.svg",
           "dark": "resources/dark/html.svg"
         }
       },
       {
-        "command": "vscode-revealjs.showSample",
-        "title": "Revealjs: Open a sample",
+        "command": "vscode-revealmajs.showSample",
+        "title": "revealmajs: Open a sample",
         "icon": {
           "light": "resources/light/html.svg",
           "dark": "resources/dark/html.svg"
@@ -99,12 +99,12 @@
       "type": "object",
       "title": "Reveal JS Option Configuration",
       "properties": {
-        "revealjs.controlsTutorial": {
+        "revealmajs.controlsTutorial": {
           "type": "boolean",
           "default": true,
           "description": "Help the user learn the controls by providing hints"
         },
-        "revealjs.controlsLayout": {
+        "revealmajs.controlsLayout": {
           "type": "string",
           "default": "bottom-right",
           "description": "Determines where controls appear",
@@ -113,7 +113,7 @@
             "edge"
           ]
         },
-        "revealjs.controlsBackArrows": {
+        "revealmajs.controlsBackArrows": {
           "type": "string",
           "default": "faded",
           "description": "Visibility rule for backwards navigation arrows",
@@ -123,7 +123,7 @@
             "visible"
           ]
         },
-        "revealjs.showSlideNumber": {
+        "revealmajs.showSlideNumber": {
           "type": "string",
           "default": "all",
           "description": "Can be used to limit the contexts in which the slide number appears",
@@ -133,12 +133,12 @@
             "speaker"
           ]
         },
-        "revealjs.hashOneBasedIndex": {
+        "revealmajs.hashOneBasedIndex": {
           "type": "boolean",
           "default": false,
           "description": "Use 1 based indexing for # links to match slide number"
         },
-        "revealjs.theme": {
+        "revealmajs.theme": {
           "type": "string",
           "default": "black",
           "description": "Revealjs Theme",
@@ -169,7 +169,7 @@
             "white"
           ]
         },
-        "revealjs.highlightTheme": {
+        "revealmajs.highlightTheme": {
           "type": "string",
           "enum": [
             "a11y-dark",
@@ -243,112 +243,112 @@
           "default": "monokai",
           "description": "highlight.js Theme"
         },
-        "revealjs.controls": {
+        "revealmajs.controls": {
           "type": "boolean",
           "default": true,
           "description": "Display controls in the bottom right corner"
         },
-        "revealjs.progress": {
+        "revealmajs.progress": {
           "type": "boolean",
           "default": true,
           "description": "Display a presentation progress bar"
         },
-        "revealjs.slideNumber": {
+        "revealmajs.slideNumber": {
           "type": "boolean",
           "default": false,
           "description": "Display the page number of the current slide"
         },
-        "revealjs.history": {
+        "revealmajs.history": {
           "type": "boolean",
           "default": true,
           "description": "Push each slide change to the browser history"
         },
-        "revealjs.keyboard": {
+        "revealmajs.keyboard": {
           "type": "boolean",
           "default": true,
           "description": "Enable keyboard shortcuts for navigation"
         },
-        "revealjs.overview": {
+        "revealmajs.overview": {
           "type": "boolean",
           "default": true,
           "description": "Enable the slide overview mode"
         },
-        "revealjs.center": {
+        "revealmajs.center": {
           "type": "boolean",
           "default": true,
           "description": "Vertical centering of slides"
         },
-        "revealjs.touch": {
+        "revealmajs.touch": {
           "type": "boolean",
           "default": true,
           "description": "Enables touch navigation on devices with touch input"
         },
-        "revealjs.loop": {
+        "revealmajs.loop": {
           "type": "boolean",
           "default": false,
           "description": "Loop the presentation"
         },
-        "revealjs.rtl": {
+        "revealmajs.rtl": {
           "type": "boolean",
           "default": false,
           "description": "Change the presentation direction to be RTL"
         },
-        "revealjs.shuffle": {
+        "revealmajs.shuffle": {
           "type": "boolean",
           "default": false,
           "description": "Randomizes the order of slides each time the presentation loads"
         },
-        "revealjs.fragments": {
+        "revealmajs.fragments": {
           "type": "boolean",
           "default": true,
           "description": "Turns fragments on and off globally"
         },
-        "revealjs.embedded": {
+        "revealmajs.embedded": {
           "type": "boolean",
           "default": false,
           "description": "Flags if the presentation is running in an embedded mode, i.e. contained within a limited portion of the screen"
         },
-        "revealjs.help": {
+        "revealmajs.help": {
           "type": "boolean",
           "default": true,
           "description": "Flags if we should show a help overlay when the questionmark key is pressed"
         },
-        "revealjs.showNotes": {
+        "revealmajs.showNotes": {
           "type": "boolean",
           "default": false,
           "description": "Flags if speaker notes should be visible to all viewers"
         },
-        "revealjs.autoSlide": {
+        "revealmajs.autoSlide": {
           "type": "number",
           "default": 0,
           "description": "Number of milliseconds between automatically proceeding to the next slide, disabled when set to 0, this value can be overwritten by using a data-autoslide attribute on your slides"
         },
-        "revealjs.autoSlideMethod": {
+        "revealmajs.autoSlideMethod": {
           "type": "string",
           "default": "Reveal.navigateNext",
           "description": "The direction in which the slides will move whilst autoslide is active"
         },
-        "revealjs.autoSlideStoppable": {
+        "revealmajs.autoSlideStoppable": {
           "type": "boolean",
           "default": true,
           "description": "Stop auto-sliding after user input"
         },
-        "revealjs.mouseWheel": {
+        "revealmajs.mouseWheel": {
           "type": "boolean",
           "default": false,
           "description": "Enable slide navigation via mouse wheel"
         },
-        "revealjs.hideAddressBar": {
+        "revealmajs.hideAddressBar": {
           "type": "boolean",
           "default": true,
           "description": "Hides the address bar on mobile devices"
         },
-        "revealjs.previewLinks": {
+        "revealmajs.previewLinks": {
           "type": "boolean",
           "default": false,
           "description": "Opens links in an iframe preview overlay"
         },
-        "revealjs.transition": {
+        "revealmajs.transition": {
           "type": "string",
           "default": "slide",
           "description": "Transition style",
@@ -361,7 +361,7 @@
             "zoom"
           ]
         },
-        "revealjs.transitionSpeed": {
+        "revealmajs.transitionSpeed": {
           "type": "string",
           "default": "default",
           "description": "Transition speed",
@@ -371,7 +371,7 @@
             "slow"
           ]
         },
-        "revealjs.backgroundTransition": {
+        "revealmajs.backgroundTransition": {
           "type": "string",
           "default": "fade",
           "description": "Transition style for full page slide backgrounds (none/fade/slide/convex/concave/zoom)",
@@ -384,107 +384,117 @@
             "zoom"
           ]
         },
-        "revealjs.viewDistance": {
+        "revealmajs.viewDistance": {
           "type": "number",
           "default": 3,
           "description": "Number of slides away from the current that are visible"
         },
-        "revealjs.width": {
+        "revealmajs.width": {
           "type": "number",
           "default": 960,
           "description": "Width of the presentation"
         },
-        "revealjs.height": {
+        "revealmajs.height": {
           "type": "number",
           "default": 700,
           "description": "Height of the presentation"
         },
-        "revealjs.margin": {
+        "revealmajs.margin": {
           "type": "number",
           "default": 0.04,
           "description": "Factor of the display size that should remain empty around the content"
         },
-        "revealjs.minScale": {
+        "revealmajs.minScale": {
           "type": "number",
           "default": 0.2,
           "description": "Bounds for smallest possible scale to apply to content"
         },
-        "revealjs.maxScale": {
+        "revealmajs.maxScale": {
           "type": "number",
           "default": 2,
           "description": "Bounds for largest  possible scale to apply to content"
         },
-        "revealjs.disableLayout": {
+        "revealmajs.disableLayout": {
           "type": "boolean",
           "default": false,
           "description": "disable the built-in scaling and centering and Bring Your Own Layout"
         },
-        "revealjs.parallaxBackgroundImage": {
+        "revealmajs.parallaxBackgroundImage": {
           "type": "string",
           "default": "",
           "description": "Parallax background image"
         },
-        "revealjs.parallaxBackgroundSize": {
+        "revealmajs.parallaxBackgroundSize": {
           "type": "string",
           "default": "",
           "description": "Parallax background size (CSS syntax, e.g. 2100px 900px)"
         },
-        "revealjs.parallaxBackgroundHorizontal": {
+        "revealmajs.parallaxBackgroundHorizontal": {
           "type": "number",
           "default": 0,
           "description": "Number of pixels to move the parallax background per slide"
         },
-        "revealjs.parallaxBackgroundVertical": {
+        "revealmajs.parallaxBackgroundVertical": {
           "type": "number",
           "default": 0,
           "description": "Number of pixels to move the parallax background per slide"
         },
-        "revealjs.slideExplorerEnabled": {
+        "revealmajs.slideExplorerEnabled": {
           "type": "boolean",
           "default": true,
           "description": "Hide or show slides explorer"
         },
-        "revealjs.browserPath": {
+        "revealmajs.browserPath": {
           "type": "string",
           "default": null,
           "description": "Full path of browser to use"
         },
-        "revealjs.exportHTMLPath": {
+        "revealmajs.exportHTMLPath": {
           "type": "string",
           "default": "./export",
           "description": "Path where the HTML export is created, relative to the .md file"
         },
-        "revealjs.openFilemanagerAfterHTMLExport": {
+        "revealmajs.openFilemanagerAfterHTMLExport": {
           "type": "boolean",
           "default": true,
           "description": "Open the file manager after HTML export"
         },
-        "revealjs.enableMenu": {
+        "revealmajs.enableMenu": {
           "type": "boolean",
           "default": true,
           "description": "Enable the menu"
         },
-        "revealjs.enableChalkboard": {
+        "revealmajs.enableChalkboard": {
           "type": "boolean",
           "default": true,
           "description": "Enable the chalkboard"
         },
-        "revealjs.enableZoom": {
+        "revealmajs.enableLaserPointer": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable the laser pointer"
+        },
+        "revealmajs.enableMouseClickNavigation": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable mouse click navigation for slides"
+        },
+        "revealmajs.enableZoom": {
           "type": "boolean",
           "default": true,
           "description": "Enable the zoom plugin"
         },
-        "revealjs.enableSearch": {
+        "revealmajs.enableSearch": {
           "type": "boolean",
           "default": true,
           "description": "Enable the search in slides"
         },
-        "revealjs.title": {
+        "revealmajs.title": {
           "type": "string",
           "default": "Reveal JS presentation",
           "description": "Title of your presentation"
         },
-        "revealjs.css": {
+        "revealmajs.css": {
           "type": "array",
           "default": [],
           "items": {
@@ -492,7 +502,7 @@
           },
           "description": "External css file to use"
         },
-        "revealjs.cssvariables": {
+        "revealmajs.cssvariables": {
           "type": [
             "object",
             "null"
@@ -523,29 +533,29 @@
     "menus": {
       "view/title": [
         {
-          "command": "vscode-revealjs.showRevealJSInBrowser",
+          "command": "vscode-revealmajs.showRevealJSInBrowser",
           "when": "view == slidesExplorer",
           "group": "navigation"
         },
         {
-          "command": "vscode-revealjs.showRevealJS",
+          "command": "vscode-revealmajs.showRevealJS",
           "when": "view == slidesExplorer",
           "group": "navigation"
         },
         {
-          "command": "vscode-revealjs.exportPDF",
+          "command": "vscode-revealmajs.exportPDF",
           "when": "view == slidesExplorer",
           "group": "navigation"
         },
         {
-          "command": "vscode-revealjs.exportHTML",
+          "command": "vscode-revealmajs.exportHTML",
           "when": "view == slidesExplorer",
           "group": "navigation"
         }
       ],
       "view/item/context": [
         {
-          "command": "vscode-revealjs.goToSlide",
+          "command": "vscode-revealmajs.goToSlide",
           "when": "view == slidesExplorer && viewItem == slideNode"
         }
       ]
@@ -570,7 +580,7 @@
     "coverage": "jest --coverage",
     "unittest-dev": "cd out && mocha",
     "lint": "eslint",
-    "sonar:PR": "sonar-scanner -Dsonar.projectKey=evilz_vscode-reveal -Dsonar.organization=evilz-github -Dsonar.sources=./src -Dsonar.host.url=https://sonarcloud.io -Dsonar.testExecutionReportPaths=test-report.xml -Dsonar.pullrequest.base=master -Dsonar.pullrequest.provider=GitHub -Dsonar.pullrequest.github.repository=evilz/vscode-reveal",
+    "sonar:PR": "sonar-scanner -Dsonar.projectKey=evilz_vscode-reveal -Dsonar.organization=evilz-github -Dsonar.sources=./src -Dsonar.host.url=https://sonarcloud.io -Dsonar.testExecutionReportPaths=test-report.xml -Dsonar.pullrequest.base=master -Dsonar.pullrequest.provider=GitHub -Dsonar.pullrequest.github.repository=vittorioromeo/vscode-reveal",
     "sonar": "sonar-scanner -Dsonar.projectKey=evilz_vscode-reveal -Dsonar.organization=evilz-github -Dsonar.sources=./src -Dsonar.host.url=https://sonarcloud.io -Dsonar.testExecutionReportPaths=test-report.xml",
     "sonar2": "jest --coverage && sonar-scanner -Dsonar.projectKey=evilz_vscode-reveal -Dsonar.organization=evilz-github -Dsonar.sources=./src -Dsonar.host.url=https://sonarcloud.io -Dsonar.testExecutionReportPaths=test-report.xml",
     "dev": "vite",

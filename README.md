@@ -1,15 +1,15 @@
-# vscode-reveal [![](https://img.shields.io/visual-studio-marketplace/v/evilz.vscode-reveal)](https://marketplace.visualstudio.com/items?itemName=evilz.vscode-reveal) ![install](https://img.shields.io/visual-studio-marketplace/i/evilz.vscode-reveal)
+# vscode-reveal [![](https://img.shields.io/visual-studio-marketplace/v/vittorioromeo.vscode-reveal-majsdown)](https://marketplace.visualstudio.com/items?itemName=vittorioromeo.vscode-reveal-majsdown) ![install](https://img.shields.io/visual-studio-marketplace/i/vittorioromeo.vscode-reveal-majsdown)
 
 
-[![codecov](https://codecov.io/gh/evilz/vscode-reveal/branch/master/graph/badge.svg?token=Ff2zjHz6lR)](https://codecov.io/gh/evilz/vscode-reveal)
+[![codecov](https://codecov.io/gh/vittorioromeo/vscode-reveal/branch/master/graph/badge.svg?token=Ff2zjHz6lR)](https://codecov.io/gh/vittorioromeo/vscode-reveal)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=evilz_vscode-reveal&metric=alert_status)](https://sonarcloud.io/dashboard?id=evilz_vscode-reveal)
 <!-- 
 
-[![Known Vulnerabilities](https://snyk.io/test/github/evilz/vscode-reveal/badge.svg?targetFile=package.json)](https://snyk.io/test/github/evilz/vscode-reveal?targetFile=package.json) -->
+[![Known Vulnerabilities](https://snyk.io/test/github/vittorioromeo/vscode-reveal/badge.svg?targetFile=package.json)](https://snyk.io/test/github/vittorioromeo/vscode-reveal?targetFile=package.json) -->
 
 This extension let you display a reveal.js presentation directly from an opened markdown document.
 
-![demo](https://github.com/evilz/vscode-reveal/raw/master/images/demo2.0-bis.gif)
+![demo](https://github.com/vittorioromeo/vscode-reveal/raw/master/images/demo2.0-bis.gif)
 
 > Full documentation [here](https://www.evilznet.com/vscode-reveal)
 
@@ -40,14 +40,14 @@ Since Reveal.js use marked to parse the markdown string you can use this in your
 - GFM tables
 
 If you need a sample file you can get it here:
-https://raw.githubusercontent.com/evilz/vscode-reveal/master/sample.md
+https://raw.githubusercontent.com/vittorioromeo/vscode-reveal/master/sample.md
 
 
 ## <a id="statusbar"></a> Status bar
 
 As soon as your markdown document has at least two slides, slides counter will appear in the status bar on right.
 
-![](https://github.com/evilz/vscode-reveal/raw/master/images/statusbar.png)
+![](https://github.com/vittorioromeo/vscode-reveal/raw/master/images/statusbar.png)
 
 Clicking on slide counter will launch preview on right, and you can now see the local address of express server used to host Reveal presentation.
 Clicking on the address will launch presentation in the browser.
@@ -64,7 +64,7 @@ Blue icon is used to show horizontal slide, orange is used for vertical ones.
 Clicking on slide name will move the cursor on beginning of the slide in the editor.
 If the preview is opened it will also show the selected slide on it.
 
-![](https://github.com/evilz/vscode-reveal/raw/master/images/sidebar.png)
+![](https://github.com/vittorioromeo/vscode-reveal/raw/master/images/sidebar.png)
 
 
 ## <a id="theme"></a> Theme
@@ -82,7 +82,7 @@ reveal.js comes with a few themes built in:
 - blood - Dark background, thick white text, red links
 - moon - Dark blue background, thick grey text, blue link
 
-You can set it using `revealjs.theme` parameter in Vs code config or in the document itself using front matter.
+You can set it using `revealmajs.theme` parameter in Vs code config or in the document itself using front matter.
 
 If you want a custom theme you can do it!
 Just add custom style to a CSS file in the same folder that your markdown.
@@ -104,7 +104,7 @@ Note that you can use both theme and custom theme at the same time. Your custom 
 ## <a id="highlight"></a> Highlight Theme
 
 You can use code block in your markdown that will be highlighted by highlight.js.
-So you can configure the coloration theme by setting `revealjs.highlightTheme` parameter of VS Code, or set it using front matter.
+So you can configure the coloration theme by setting `revealmajs.highlightTheme` parameter of VS Code, or set it using front matter.
 
 ```
 ---
@@ -119,18 +119,18 @@ Get the theme list here https://highlightjs.org/
 
 You can customize many setting on for your reveal.js presentation.
 
-<table><tr><th>Name</th><th>Description</th><th>Default</th></tr><tr><td><code>revealjs.notesSeparator</code></td><td>Revealjs markdown note delimiter</td><td><code>note:</code></td></tr><tr><td><code>revealjs.separator</code></td><td>Revealjs markdown slide separator</td><td><code>^(
+<table><tr><th>Name</th><th>Description</th><th>Default</th></tr><tr><td><code>revealmajs.notesSeparator</code></td><td>Revealjs markdown note delimiter</td><td><code>note:</code></td></tr><tr><td><code>revealmajs.separator</code></td><td>Revealjs markdown slide separator</td><td><code>^(
 ?|
 )---(
 ?|
-)$</code></td></tr><tr><td><code>revealjs.verticalSeparator</code></td><td>Revealjs markdown vertical separator</td><td><code>^(
+)$</code></td></tr><tr><td><code>revealmajs.verticalSeparator</code></td><td>Revealjs markdown vertical separator</td><td><code>^(
 ?|
 )--(
 ?|
 )$</code></td></tr>
-<tr><td><code>revealjs.theme</code></td><td>Revealjs Theme (black, white, league, beige, sky, night, serif, simple, solarized</td><td><code>black</code></td></tr>
-<tr><td><code>revealjs.highlightTheme</code></td><td>Highlight Theme</td><td><code>Zenburn</code></td></tr>
-<tr><td><code>revealjs.controls</code></td><td>Display controls in the bottom right corner</td><td><code>true</code></td></tr><tr><td><code>revealjs.progress</code></td><td>Display a presentation progress bar</td><td><code>true</code></td></tr><tr><td><code>revealjs.slideNumber</code></td><td>Display the page number of the current slide</td><td><code></code></td></tr><tr><td><code>revealjs.history</code></td><td>Push each slide change to the browser history</td><td><code></code></td></tr><tr><td><code>revealjs.keyboard</code></td><td>Enable keyboard shortcuts for navigation</td><td><code>true</code></td></tr><tr><td><code>revealjs.overview</code></td><td>Enable the slide overview mode</td><td><code>true</code></td></tr><tr><td><code>revealjs.center</code></td><td>Vertical centering of slides</td><td><code>true</code></td></tr><tr><td><code>revealjs.touch</code></td><td>Enables touch navigation on devices with touch input</td><td><code>true</code></td></tr><tr><td><code>revealjs.loop</code></td><td>Loop the presentation</td><td><code></code></td></tr><tr><td><code>revealjs.rtl</code></td><td>Change the presentation direction to be RTL</td><td><code></code></td></tr><tr><td><code>revealjs.shuffle</code></td><td>Randomizes the order of slides each time the presentation loads</td><td><code></code></td></tr><tr><td><code>revealjs.fragments</code></td><td>Turns fragments on and off globally</td><td><code>true</code></td></tr><tr><td><code>revealjs.embedded</code></td><td>Flags if the presentation is running in an embedded mode, i.e. contained within a limited portion of the screen</td><td><code></code></td></tr><tr><td><code>revealjs.help</code></td><td>Flags if we should show a help overlay when the questionmark key is pressed</td><td><code>true</code></td></tr><tr><td><code>revealjs.showNotes</code></td><td>Flags if speaker notes should be visible to all viewers</td><td><code></code></td></tr><tr><td><code>revealjs.autoSlide</code></td><td>Number of milliseconds between automatically proceeding to the next slide, disabled when set to 0, this value can be overwritten by using a data-autoslide attribute on your slides</td><td><code></code></td></tr><tr><td><code>revealjs.autoSlideMethod</code></td><td>The direction in which the slides will move whilst autoslide is activet</td><td><code>Reveal.navigateNext</code></td></tr><tr><td><code>revealjs.autoSlideStoppable</code></td><td>Stop auto-sliding after user input</td><td><code>true</code></td></tr><tr><td><code>revealjs.mouseWheel</code></td><td>Enable slide navigation via mouse wheel</td><td><code></code></td></tr><tr><td><code>revealjs.hideAddressBar</code></td><td>Hides the address bar on mobile devices</td><td><code>true</code></td></tr><tr><td><code>revealjs.previewLinks</code></td><td>Opens links in an iframe preview overlay</td><td><code></code></td></tr><tr><td><code>revealjs.transition</code></td><td>Transition style (none/fade/slide/convex/concave/zoom)</td><td><code>default</code></td></tr><tr><td><code>revealjs.transitionSpeed</code></td><td>Transition speed (default/fast/slow)</td><td><code>default</code></td></tr><tr><td><code>revealjs.backgroundTransition</code></td><td>Transition style for full page slide backgrounds (none/fade/slide/convex/concave/zoom)</td><td><code>default</code></td></tr><tr><td><code>revealjs.viewDistance</code></td><td>Number of slides away from the current that are visible</td><td><code>3</code></td></tr><tr><td><code>revealjs.parallaxBackgroundImage</code></td><td>Parallax background image</td><td><code></code></td></tr><tr><td><code>revealjs.parallaxBackgroundSize</code></td><td>Parallax background size (CSS syntax, e.g. 2100px 900px)</td><td><code></code></td></tr><tr><td><code>revealjs.parallaxBackgroundHorizontal</code></td><td>Number of pixels to move the parallax background per slide</td><td><code></code></td></tr><tr><td><code>revealjs.parallaxBackgroundVertical</code></td><td>Number of pixels to move the parallax background per slide</td><td><code></code></td></tr></table>
+<tr><td><code>revealmajs.theme</code></td><td>Revealjs Theme (black, white, league, beige, sky, night, serif, simple, solarized</td><td><code>black</code></td></tr>
+<tr><td><code>revealmajs.highlightTheme</code></td><td>Highlight Theme</td><td><code>Zenburn</code></td></tr>
+<tr><td><code>revealmajs.controls</code></td><td>Display controls in the bottom right corner</td><td><code>true</code></td></tr><tr><td><code>revealmajs.progress</code></td><td>Display a presentation progress bar</td><td><code>true</code></td></tr><tr><td><code>revealmajs.slideNumber</code></td><td>Display the page number of the current slide</td><td><code></code></td></tr><tr><td><code>revealmajs.history</code></td><td>Push each slide change to the browser history</td><td><code></code></td></tr><tr><td><code>revealmajs.keyboard</code></td><td>Enable keyboard shortcuts for navigation</td><td><code>true</code></td></tr><tr><td><code>revealmajs.overview</code></td><td>Enable the slide overview mode</td><td><code>true</code></td></tr><tr><td><code>revealmajs.center</code></td><td>Vertical centering of slides</td><td><code>true</code></td></tr><tr><td><code>revealmajs.touch</code></td><td>Enables touch navigation on devices with touch input</td><td><code>true</code></td></tr><tr><td><code>revealmajs.loop</code></td><td>Loop the presentation</td><td><code></code></td></tr><tr><td><code>revealmajs.rtl</code></td><td>Change the presentation direction to be RTL</td><td><code></code></td></tr><tr><td><code>revealmajs.shuffle</code></td><td>Randomizes the order of slides each time the presentation loads</td><td><code></code></td></tr><tr><td><code>revealmajs.fragments</code></td><td>Turns fragments on and off globally</td><td><code>true</code></td></tr><tr><td><code>revealmajs.embedded</code></td><td>Flags if the presentation is running in an embedded mode, i.e. contained within a limited portion of the screen</td><td><code></code></td></tr><tr><td><code>revealmajs.help</code></td><td>Flags if we should show a help overlay when the questionmark key is pressed</td><td><code>true</code></td></tr><tr><td><code>revealmajs.showNotes</code></td><td>Flags if speaker notes should be visible to all viewers</td><td><code></code></td></tr><tr><td><code>revealmajs.autoSlide</code></td><td>Number of milliseconds between automatically proceeding to the next slide, disabled when set to 0, this value can be overwritten by using a data-autoslide attribute on your slides</td><td><code></code></td></tr><tr><td><code>revealmajs.autoSlideMethod</code></td><td>The direction in which the slides will move whilst autoslide is activet</td><td><code>Reveal.navigateNext</code></td></tr><tr><td><code>revealmajs.autoSlideStoppable</code></td><td>Stop auto-sliding after user input</td><td><code>true</code></td></tr><tr><td><code>revealmajs.mouseWheel</code></td><td>Enable slide navigation via mouse wheel</td><td><code></code></td></tr><tr><td><code>revealmajs.hideAddressBar</code></td><td>Hides the address bar on mobile devices</td><td><code>true</code></td></tr><tr><td><code>revealmajs.previewLinks</code></td><td>Opens links in an iframe preview overlay</td><td><code></code></td></tr><tr><td><code>revealmajs.transition</code></td><td>Transition style (none/fade/slide/convex/concave/zoom)</td><td><code>default</code></td></tr><tr><td><code>revealmajs.transitionSpeed</code></td><td>Transition speed (default/fast/slow)</td><td><code>default</code></td></tr><tr><td><code>revealmajs.backgroundTransition</code></td><td>Transition style for full page slide backgrounds (none/fade/slide/convex/concave/zoom)</td><td><code>default</code></td></tr><tr><td><code>revealmajs.viewDistance</code></td><td>Number of slides away from the current that are visible</td><td><code>3</code></td></tr><tr><td><code>revealmajs.parallaxBackgroundImage</code></td><td>Parallax background image</td><td><code></code></td></tr><tr><td><code>revealmajs.parallaxBackgroundSize</code></td><td>Parallax background size (CSS syntax, e.g. 2100px 900px)</td><td><code></code></td></tr><tr><td><code>revealmajs.parallaxBackgroundHorizontal</code></td><td>Number of pixels to move the parallax background per slide</td><td><code></code></td></tr><tr><td><code>revealmajs.parallaxBackgroundVertical</code></td><td>Number of pixels to move the parallax background per slide</td><td><code></code></td></tr></table>
 
 
 ## <a id="frontmatter"></a> YAML Front Matter
@@ -144,7 +144,7 @@ transition: "zoom"
 ---
 ```
 
-> Note do not add `revealjs.` prefix before setting name.
+> Note do not add `revealmajs.` prefix before setting name.
 
 
 ## <a id="preview"></a> Open preview on right side

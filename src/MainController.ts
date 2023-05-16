@@ -1,6 +1,6 @@
 /*
  * File: \src\MainController.ts
- * Project: vscode-reveal
+ * Project: vscode-reveal-majsdown
  * Created Date: Wednesday October 23rd 2019
  * Author: Vincent Bourdon
  * -----

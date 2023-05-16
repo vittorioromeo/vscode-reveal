@@ -30,7 +30,7 @@
     "sonarlint.connectedMode.project": {
         "projectKey": "evilz_vscode-reveal"
       },
-      "psi-header.license-reference": {"uri": "https://github.com/evilz/vscode-reveal/blob/master/license.txt"},
+      "psi-header.license-reference": {"uri": "https://github.com/vittorioromeo/vscode-reveal/blob/master/license.txt"},
    
       "psi-header.config": {
           "forceToTop": true,

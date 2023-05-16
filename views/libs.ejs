@@ -23,7 +23,21 @@
 <% if(enableSearch) {%><script src="libs/reveal.js/4.3.1/plugin/search/search.js"></script><%}%>
 <% if(enableMenu) {%><script src="libs/reveal.js/4.3.1/plugin/menu/menu.js"></script><%}%>
 <% if(enableChalkboard) {%><script src="libs/reveal.js/4.3.1/plugin/chalkboard/plugin.js"></script><%}%>
+<% if(enableLaserPointer) {%><script src="libs/reveal.js/4.3.1/plugin/pointer/pointer.js"></script><%}%>
 
 <!--	<script src="libs/reveal.js/4.3.1/plugin/audio-slideshow/plugin.js"></script>  -->
 <!--	<script src="libs/reveal.js/4.3.1/plugin/audio-slideshow/recorder.js"></script>-->
 <!--	<script src="libs/reveal.js/4.3.1/plugin/audio-slideshow/RecordRTC.js"></script>-->
+
+<% if(enableMouseClickNavigation) {%>
+<script>
+	window.addEventListener("mousedown", handleClick, false);
+	window.addEventListener("contextmenu", function (e) { e.preventDefault(); }, false);
+
+	function handleClick(e) {
+		e.preventDefault();
+		if (e.button === 0) Reveal.next();
+		if (e.button === 2) Reveal.prev();
+	}
+</script>
+<%}%>

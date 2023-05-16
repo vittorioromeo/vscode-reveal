@@ -1,6 +1,6 @@
 import { window, commands, Uri } from 'vscode'
 import path from 'path'
-export const SHOW_SAMPLE = 'vscode-revealjs.showSample'
+export const SHOW_SAMPLE = 'vscode-revealmajs.showSample'
 export type SHOW_SAMPLE = typeof SHOW_SAMPLE
 
 export const showSample = async (extensionPath) => {
